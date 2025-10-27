@@ -1,0 +1,49 @@
+﻿.banner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.4rem;
+  border-radius: 20px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  background: rgba(99, 102, 241, 0.14);
+  color: #312e81;
+}
+
+.banner strong {
+  display: block;
+  font-weight: 700;
+}
+
+.banner span {
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1.1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.buttonPrimary {
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  color: #f8fafc;
+}
+
+.buttonGhost {
+  background: rgba(255, 255, 255, 0.8);
+  color: #312e81;
+  border-color: rgba(99, 102, 241, 0.3);
+}

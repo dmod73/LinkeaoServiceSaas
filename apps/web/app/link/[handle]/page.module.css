@@ -1,0 +1,318 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(1.2rem, 4vw, 2.5rem) 1.25rem 3rem;
+}
+
+.overlay {
+  width: min(480px, 100%);
+  margin: 0 auto;
+}
+
+.card {
+  border-radius: 24px;
+  padding: clamp(1.6rem, 3vw, 2.4rem) clamp(1.2rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.9rem, 2.8vw, 1.4rem);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.45rem;
+}
+
+.avatarBorder {
+  width: 104px;
+  height: 104px;
+  border-radius: 999px;
+  border: 4px solid currentColor;
+  padding: 4px;
+  background: rgba(15, 23, 42, 0.45);
+  display: grid;
+  place-items: center;
+}
+
+.avatarBorder img {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+}
+
+.header p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.socialBar {
+  margin-top: 0.65rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.socialLink {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.socialLink:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0.95;
+}
+
+.links {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.carouselCard {
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.carouselHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.carouselHeaderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.carouselHeaderContent small {
+  font-weight: 400;
+  opacity: 0.85;
+  font-size: 0.82rem;
+}
+
+.carouselIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  border: 1px solid currentColor;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.3rem;
+}
+
+.carouselItem {
+  flex: 0 0 76px;
+  height: 76px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.carouselItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carouselEmpty {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.carouselContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.carouselViewport {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 23, 42, 0.25);
+}
+
+.carouselImage {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.carouselControl {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(15, 23, 42, 0.6);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.carouselControl:hover {
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.carouselControlLeft {
+  left: 0.6rem;
+}
+
+.carouselControlRight {
+  right: 0.6rem;
+}
+
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.carouselDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.carouselDotActive {
+  transform: scale(1.1);
+}
+
+.linkButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.9rem 3.6rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  position: relative;
+}
+
+.linkButton:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+.linkButton_round {
+  border-radius: 18px;
+}
+
+.linkButton_pill {
+  border-radius: 999px;
+}
+
+.linkButton_square {
+  border-radius: 12px;
+}
+
+.linkThumb {
+  position: absolute;
+  left: 1.2rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.linkIcon {
+  position: absolute;
+  left: 1.2rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkButtonHighlight {
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.22), 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+.linkLabel {
+  text-align: center;
+  width: 100%;
+}
+
+.emptyLinks {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 2.2rem 1rem 2.8rem;
+  }
+
+  .card {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .linkButton {
+    padding-left: 3.6rem;
+  }
+}

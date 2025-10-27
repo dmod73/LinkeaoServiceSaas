@@ -1,0 +1,417 @@
+.layout {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.header p {
+  margin: 0.5rem 0 0;
+  color: rgba(148, 163, 184, 0.82);
+  max-width: 540px;
+}
+
+.searchWrapper {
+  min-width: 240px;
+}
+
+.search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f8fafc;
+}
+
+.search::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+.grid {
+  display: grid;
+  gap: 1.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  background: linear-gradient(155deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.85));
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 1.6rem;
+  display: grid;
+  gap: 1.2rem;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.42);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.cardIdentity {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.cardAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(79, 70, 229, 0.35));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #f8fafc;
+  font-size: 1.1rem;
+}
+
+.cardIdentity strong {
+  display: block;
+  color: #f8fafc;
+  font-size: 1.05rem;
+}
+
+.cardIdentity span {
+  display: block;
+  color: rgba(148, 163, 184, 0.8);
+  font-size: 0.9rem;
+}
+
+.roleBadge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.roleSystem {
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+  border-color: rgba(129, 140, 248, 0.35);
+}
+
+.roleAdmin {
+  background: rgba(59, 130, 246, 0.2);
+  color: #bfdbfe;
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+.roleMember {
+  background: rgba(148, 163, 184, 0.15);
+  color: rgba(226, 232, 240, 0.8);
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.meta div {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.meta dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(148, 163, 184, 0.7);
+}
+
+.meta dd {
+  margin: 0;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.manageButton {
+  border-radius: 12px;
+  padding: 0.55rem 1.2rem;
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  background: rgba(79, 70, 229, 0.2);
+  color: #c7d2fe;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.manageButton:hover {
+  border-color: rgba(99, 102, 241, 0.65);
+  background: rgba(79, 70, 229, 0.3);
+}
+
+.emptyState {
+  grid-column: 1 / -1;
+  background: rgba(15, 23, 42, 0.75);
+  border-radius: 24px;
+  padding: 2.4rem;
+  text-align: center;
+  border: 1px dashed rgba(148, 163, 184, 0.3);
+}
+
+.emptyState h2 {
+  margin: 0 0 0.6rem;
+  color: #f8fafc;
+}
+
+.emptyState p {
+  margin: 0;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  z-index: 40;
+  backdrop-filter: blur(8px);
+}
+
+.modalContent {
+  width: min(720px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(17, 24, 39, 0.94));
+  border-radius: 28px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 2rem;
+  display: grid;
+  gap: 1.8rem;
+  box-shadow: 0 40px 80px rgba(15, 23, 42, 0.5);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 1.5rem;
+}
+
+.modalHeader p {
+  margin: 0.35rem 0 0;
+  color: rgba(148, 163, 184, 0.75);
+}
+
+.closeButton {
+  border: none;
+  background: rgba(30, 41, 59, 0.7);
+  color: #cbd5f5;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.modalSection {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.modalSection h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #e2e8f0;
+}
+
+.modalSection p {
+  margin: 0;
+  color: rgba(148, 163, 184, 0.78);
+  font-size: 0.95rem;
+}
+
+.membershipList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.membershipList li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-radius: 16px;
+  background: rgba(30, 41, 59, 0.75);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.membershipInfo {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.membershipInfo span {
+  font-weight: 600;
+  color: #f8fafc;
+}
+
+.membershipInfo small {
+  color: rgba(148, 163, 184, 0.7);
+  font-size: 0.75rem;
+}
+
+.membershipActions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.systemRoleTag {
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  background: rgba(129, 140, 248, 0.22);
+  color: #c7d2fe;
+  font-weight: 600;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.membershipActions select,
+.membershipActions button {
+  padding: 0.45rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.5);
+  color: #f8fafc;
+}
+
+.membershipActions button {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(96, 165, 250, 0.5);
+  cursor: pointer;
+}
+
+.sectionActions {
+  display: grid;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.promoteButton {
+  padding: 0.6rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(129, 140, 248, 0.4);
+  background: rgba(99, 102, 241, 0.22);
+  color: #c7d2fe;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.deleteButton {
+  padding: 0.6rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.helperText {
+  color: rgba(248, 113, 113, 0.8);
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.modalFooter button:first-child {
+  padding: 0.6rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(30, 41, 59, 0.7);
+  color: #e2e8f0;
+  cursor: pointer;
+}
+
+.emptyMemberships {
+  margin: 0;
+  padding: 1rem;
+  border-radius: 14px;
+  background: rgba(30, 41, 59, 0.6);
+  color: rgba(148, 163, 184, 0.8);
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .membershipList li {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .membershipActions {
+    justify-content: flex-start;
+  }
+
+  .modalContent {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .meta {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    padding: 1rem;
+  }
+
+  .modalContent {
+    border-radius: 22px;
+  }
+}

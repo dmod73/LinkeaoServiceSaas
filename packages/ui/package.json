@@ -1,0 +1,28 @@
+{
+    "name":  "@ui/shared",
+    "version":  "0.1.0",
+    "private":  true,
+    "main":  "./dist/index.js",
+    "types":  "src/index.tsx",
+    "files":  [
+                  "dist",
+                  "src"
+              ],
+    "scripts":  {
+                    "build":  "tsc -p tsconfig.json",
+                    "dev":  "tsc -w -p tsconfig.json",
+                    "lint":  "echo \"no lint configured yet\"",
+                    "typecheck":  "tsc -p tsconfig.json --noEmit"
+                },
+    "peerDependencies":  {
+                             "react":  "\u003e=18",
+                             "react-dom":  "\u003e=18"
+                         },
+    "devDependencies":  {
+                            "typescript":  "~5.9.0",
+                            "eslint":  "^9.14.0",
+                            "prettier":  "^3.3.3",
+                            "@types/react":  "^19.0.0",
+                            "@types/react-dom":  "^19.0.0"
+                        }
+}

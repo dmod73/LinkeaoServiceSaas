@@ -1,0 +1,4 @@
+{
+  "framework": "nextjs",
+  "functions": { "apps/web/app/**/route.ts": { "runtime": "nodejs22.x" } }
+}

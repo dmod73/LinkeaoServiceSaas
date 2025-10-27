@@ -1,0 +1,37 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/.cache": true,
+    "**/.vercel": true,
+    "**/.pnpm-store": true,
+    "**/coverage": true,
+    "**/.DS_Store": true,
+    "**/*.log": true,
+    "**/pnpm-lock.yaml": true,
+    "supabase/.temp": true,
+    "supabase/supabase": true,
+    "infra/supabase/.branches": true,
+    "infra/supabase/.temp": true,
+    "infra/supabase/.volumes": true,
+    "infra/supabase/docker": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/.cache": true,
+    "**/.vercel": true,
+    "**/.pnpm-store": true,
+    "**/coverage": true,
+    "supabase/.temp": true,
+    "supabase/supabase": true,
+    "infra/supabase/.branches": true,
+    "infra/supabase/.temp": true,
+    "infra/supabase/.volumes": true,
+    "infra/supabase/docker": true
+  }
+}

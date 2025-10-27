@@ -1,0 +1,16 @@
+# node
+node_modules
+dist
+.next
+.cache
+.turbo
+.vercel
+.env*
+.DS_Store
+
+# supabase local
+infra/supabase/.branches
+infra/supabase/.temp
+infra/supabase/.volumes
+infra/supabase/docker
+infra/supabase/.env

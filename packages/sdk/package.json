@@ -1,0 +1,17 @@
+{
+    "name":  "@sdk/client",
+    "version":  "0.1.0",
+    "private":  true,
+    "main":  "dist/index.js",
+    "types":  "src/index.ts",
+    "scripts":  {
+                    "build":  "tsc -p tsconfig.json",
+                    "typecheck":  "tsc -p tsconfig.json --noEmit"
+                },
+    "dependencies":  {
+                         "@core/shared":  "workspace:*"
+                     },
+    "devDependencies":  {
+                            "typescript":  "~5.9.0"
+                        }
+}
