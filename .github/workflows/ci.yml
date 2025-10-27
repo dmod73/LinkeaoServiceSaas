@@ -31,11 +31,11 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Typecheck web
-        run: pnpm --filter @apps/web run typecheck
+      - name: Typecheck workspace
+        run: pnpm run typecheck
 
-      - name: Build web
-        run: pnpm --filter @apps/web run build
+      - name: Build workspace
+        run: pnpm run build
 
