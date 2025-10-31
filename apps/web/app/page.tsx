@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Card } from "@ui/shared";
 import { SignOutButton } from "./components/SignOutButton";
 import { SignedOutBanner } from "./components/SignedOutBanner";
-import styles from "./landing.module.css";
+import styles from "./landing-v2.module.css";
 import { getCurrentUser } from "@/lib/auth/currentUser";
 
 const NAVIGATION = [
@@ -96,7 +96,7 @@ export default async function Page({ searchParams }: PageProps) {
       ) : null}
       <header className={styles.navbar}>
         <Link className={styles.brand} href="/">
-          <span className={styles.logo}>Linkeao Service</span>
+          <span className={styles.logo} aria-label="Linkeao Service"></span>
           <span className={styles.tag}>Micro SaaS</span>
         </Link>
         <input className={styles.navToggle} id="nav-toggle" type="checkbox" aria-label="Abrir menu" />
@@ -222,7 +222,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       <footer className={styles.footer}>
         <div>
-          <span className={styles.logo}>Linkeao Service</span>
+          <span className={styles.logo} aria-label="Linkeao Service"></span>
           <p>
             La forma mas sencilla de ofrecer experiencias digitales consistentes, sorprendentes y faciles de operar.
           </p>

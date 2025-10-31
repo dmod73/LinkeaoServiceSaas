@@ -1,44 +1,48 @@
-export type NavItem = {
+﻿export type NavItem = {
   label: string;
   href: string;
-  icon: string;
+  icon: React.ReactNode;
 };
 
 const ADMIN_LINKS: NavItem[] = [{ label: "Usuarios", href: "/dashboard/admin/users", icon: "U" }];
 const LINK_SERVICE_LINK: NavItem = { label: "LinkService", href: "/dashboard/linkservice", icon: "L" };
+const APPOINTMENTS_LINK: NavItem = { label: "Citas", href: "/dashboard/appointments", icon: "C" };
+const INVOICING_LINK: NavItem = { label: "Facturacion", href: "/dashboard/invoicing", icon: "F" };
 
-function buildSummaryLabel(activeModules: string[]): string {
-  if (!activeModules.length) return "Resumen · 0 módulos activos";
-  const count = activeModules.length;
-  const modulesList = activeModules.join(", ");
-  const plural = count > 1;
-  return `Resumen · ${count} módulo${plural ? "s" : ""} activo${plural ? "s" : ""}: ${modulesList}`;
+function buildSummaryLabel(): string {
+  return "Resumen";
 }
 
 export function getDashboardNavItems({
   showAdmin = false,
   enableLinkService = false,
-  activeModules = []
+  enableInvoice = false,
+  enableInvoicing = false,
+  activeModuleLabels = []
 }: {
   showAdmin?: boolean;
   enableLinkService?: boolean;
-  activeModules?: string[];
+  enableInvoice?: boolean;
+  enableInvoicing?: boolean;
+  activeModuleLabels?: string[];
 }): NavItem[] {
   const summary: NavItem = {
-    label: buildSummaryLabel(activeModules),
+    label: buildSummaryLabel(),
     href: "/dashboard",
     icon: "R"
   };
 
   const base: NavItem[] = [
     summary,
-    { label: "Módulos", href: "/dashboard/modules", icon: "M" },
-    { label: "Configuración", href: "/dashboard/settings", icon: "S" }
+    { label: "Modulos", href: "/dashboard/modules", icon: "M" },
+    { label: "Configuracion", href: "/dashboard/settings", icon: "S" }
   ];
 
   return [
     ...base,
     ...(enableLinkService ? [LINK_SERVICE_LINK] : []),
+    ...(enableInvoice ? [APPOINTMENTS_LINK] : []),
+    ...(enableInvoicing ? [INVOICING_LINK] : []),
     ...(showAdmin ? ADMIN_LINKS : [])
   ];
 }

@@ -1,6 +1,7 @@
 import type { Role } from "@core/shared";
 import { getCurrentUser } from "@/lib/auth/currentUser";
 import { getServerSupabase } from "@/lib/supabase/server";
+import { getServiceSupabase } from "@/lib/supabase/service";
 
 type MembershipRow = { tenant_id: string; role: Role };
 
@@ -20,7 +21,7 @@ type TenantContext = {
   role: Role;
 };
 
-async function resolveTenantContext(): Promise<TenantContext | null> {
+export async function getTenantContext(): Promise<TenantContext | null> {
   const currentUser = await getCurrentUser();
   if (!currentUser) return null;
 
@@ -59,7 +60,7 @@ export type TenantModule = {
 };
 
 export async function listTenantModules(): Promise<TenantModule[]> {
-  const context = await resolveTenantContext();
+  const context = await getTenantContext();
   if (!context?.tenantId) return [];
 
   const supabase = await getServerSupabase();
@@ -91,4 +92,21 @@ export async function listTenantModules(): Promise<TenantModule[]> {
 export async function isModuleEnabled(moduleId: string): Promise<boolean> {
   const modules = await listTenantModules();
   return modules.some((module) => module.id === moduleId && module.enabled);
+}
+
+export async function isModuleEnabledForTenant(tenantId: string, moduleId: string): Promise<boolean> {
+  const service = getServiceSupabase();
+  const { data, error } = await service
+    .from("tenant_modules")
+    .select("enabled")
+    .eq("tenant_id", tenantId)
+    .eq("module_id", moduleId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("[moduleAccess] tenant module lookup", tenantId, moduleId, error);
+    return false;
+  }
+
+  return Boolean(data?.enabled);
 }

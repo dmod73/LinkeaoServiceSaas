@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import type { Role } from "@core/shared";
 import { getServerSupabase } from "@/lib/supabase/server";
+import { MODULE_CATALOG } from "@/lib/modules";
 import { getCurrentUser } from "@/lib/auth/currentUser";
 import { ModuleStoreClient } from "./ModuleStoreClient";
 
@@ -68,11 +69,12 @@ export default async function ModulesPage() {
 
   const modules = (moduleRows ?? []).map((row) => ({
     id: row.id,
-    name: row.name,
-    description: row.description ?? "",
-    isFree: row.is_free ?? false,
+    // Prefer catalog name/description if available (keeps display consistent during migration from 'invoice' -> 'appointments')
+    name: MODULE_CATALOG[row.id as keyof typeof MODULE_CATALOG]?.name ?? row.name,
+    description: MODULE_CATALOG[row.id as keyof typeof MODULE_CATALOG]?.description ?? row.description ?? "",
+    isFree: MODULE_CATALOG[row.id as keyof typeof MODULE_CATALOG]?.isFree ?? (row.is_free ?? false),
     enabled: enabledMap.get(row.id) ?? false,
-    plan: row.is_free ? "Libre" : "Pro"
+    plan: (MODULE_CATALOG[row.id as keyof typeof MODULE_CATALOG]?.isFree ?? row.is_free) ? "Libre" : "Pro"
   }));
 
   const canManage = Boolean(tenantId) && effectiveRole !== "member";

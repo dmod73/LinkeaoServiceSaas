@@ -1,13 +1,17 @@
-﻿.shell {
+﻿/* ========================================
+   BASE STYLES - MOBILE FIRST
+   ======================================== */
+
+.shell {
   display: grid;
   min-height: 100vh;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 1fr; /* Mobile: solo contenido */
   background: #0f172a;
   color: #e2e8f0;
 }
 
 .sidebar {
-  display: flex;
+  display: none; /* Oculto en móvil por defecto */
   flex-direction: column;
   gap: 2rem;
   padding: 2.5rem 2rem;
@@ -24,42 +28,47 @@
 }
 
 .brand span:first-child {
-  font-size: 1.65rem;
+  font-size: 1.35rem; /* Mobile: más pequeño */
   font-weight: 700;
   letter-spacing: 0.01em;
 }
 
 .brand span:last-child {
-  font-size: 0.9rem;
+  font-size: 0.8rem; /* Mobile: más pequeño */
   color: rgba(226, 232, 240, 0.64);
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Mobile: 100vh completo */
+  width: 100%; /* Mobile: ancho completo */
+  max-width: 100%; /* Mobile: no exceder */
+  overflow-x: hidden; /* Prevenir scroll horizontal */
+  box-sizing: border-box; /* Incluir padding en width */
   background: linear-gradient(180deg, rgba(15, 23, 42, 0.98) 0%, #0b1120 100%);
 }
 
 .topbar {
   display: flex;
   flex-direction: column;
-  padding: 1.8rem 2.6rem;
-  gap: 1.4rem;
+  padding: 1.4rem; /* Mobile: padding reducido */
+  gap: 1rem;
   border-bottom: 1px solid rgba(148, 163, 184, 0.12);
   position: sticky;
   top: 0;
-  background: rgba(15, 23, 42, 0.9);
+  background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(16px);
   z-index: 5;
 }
 
 .topMeta {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1.4rem;
-  flex-wrap: wrap;
+  flex-direction: column; /* Mobile: stack vertical */
+  align-items: stretch; /* Mobile: estirar */
+  justify-content: flex-start;
+  gap: 0.9rem;
+  flex-wrap: nowrap;
 }
 
 .breadcrumb {
@@ -83,20 +92,23 @@
 
 .topActionsRow {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1rem;
-  flex-wrap: wrap;
+  align-items: stretch; /* Mobile: estirar */
+  justify-content: flex-start;
+  flex-direction: column; /* Mobile: stack vertical */
+  gap: 0.75rem;
+  width: 100%; /* Mobile: ancho completo */
+  flex-wrap: nowrap;
 }
 
 .topActionsDesktop {
-  display: flex;
+  display: none; /* Mobile: ocultar desktop actions */
   gap: 0.9rem;
   flex-wrap: wrap;
 }
 
 .topActionsMobile {
-  display: none;
+  display: block; /* Mobile: mostrar mobile actions */
+  width: 100%;
 }
 
 .topActionsMobile summary {
@@ -162,7 +174,10 @@
 .user {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  width: 100%; /* Mobile: ancho completo */
+  justify-content: space-between; /* Mobile: space between */
+  flex-wrap: wrap; /* Mobile: permitir wrap */
+  gap: 0.75rem; /* Mobile: gap mayor */
   padding: 0.55rem 0.85rem;
   border-radius: 14px;
   border: 1px solid rgba(148, 163, 184, 0.24);
@@ -210,6 +225,8 @@
 .userControls {
   display: flex;
   align-items: center;
+  width: 100%; /* Mobile: ancho completo */
+  justify-content: flex-start; /* Mobile: alineado a la izquierda */
   gap: 0.75rem;
 }\n\n.button {
   display: inline-flex;
@@ -246,46 +263,52 @@
 
 .main {
   flex: 1;
-  padding: 2.4rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  padding: 1.5rem 1rem 2rem; /* Mobile: padding reducido */
+  width: 100%; /* Mobile: ancho completo */
+  max-width: 100%; /* Mobile: no exceder */
+  overflow-x: hidden; /* Prevenir scroll horizontal */
+  box-sizing: border-box; /* Incluir padding en width */
 }
 
 .main > * + * {
-  margin-top: 2.4rem;
+  margin-top: 1.5rem; /* Mobile: spacing reducido */
 }
 
-@media (max-width: 1100px) {
+/* ========================================
+   RESPONSIVE - MOBILE FIRST
+   ======================================== */
+
+/* Tablet (≥ 640px) */
+@media (min-width: 640px) {
+  .main {
+    padding: 2rem 1.5rem 3rem;
+  }
+
+  .main > * + * {
+    margin-top: 2rem;
+  }
+}
+
+/* Desktop pequeño (≥ 900px) */
+@media (min-width: 900px) {
   .shell {
     grid-template-columns: 220px 1fr;
   }
 
-  .topbar {
-    padding-inline: 1.8rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .shell {
-    grid-template-columns: 1fr;
-  }
-
   .sidebar {
+    display: flex; /* Mostrar sidebar en desktop */
     position: sticky;
     top: 0;
-    z-index: 6;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 1.8rem;
-    border-right: none;
-    border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+    z-index: 5;
+    padding: 2.4rem 2rem;
   }
 
   .brand span:first-child {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
   }
 
   .brand span:last-child {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
   }
 
   .content {
@@ -297,73 +320,71 @@
   }
 
   .topMeta {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.4rem;
+    flex-wrap: wrap;
   }
 
   .topActionsRow {
-    width: 100%;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .topActionsDesktop {
-    display: none;
+    display: flex;
   }
 
   .topActionsMobile {
-    display: block;
-    width: 100%;
-  }
-
-  .user {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .userControls {
-    width: 100%;
-    justify-content: flex-end;
-  }
-}
-
-@media (max-width: 640px) {
-  .shell {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
     display: none;
   }
 
-  .content {
-    min-height: 100vh;
-  }
-
-  .topbar {
-    padding: 1.4rem;
-  }
-
-  .topMeta {
-    gap: 0.9rem;
-  }
-
-  .topActionsRow {
-    align-items: stretch;
-  }
-
   .user {
-    width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    width: auto;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 0.6rem;
   }
 
   .userControls {
-    width: 100%;
-    justify-content: flex-start;
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  .main {
+    padding: 2.4rem clamp(1.5rem, 4vw, 3.5rem) 4rem;
+  }
+
+  .main > * + * {
+    margin-top: 2.4rem;
+  }
+}
+
+/* Desktop grande (≥ 1100px) */
+@media (min-width: 1100px) {
+  .shell {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .sidebar {
+    padding: 2.5rem 2rem;
+  }
+
+  .brand span:first-child {
+    font-size: 1.65rem;
+  }
+
+  .brand span:last-child {
+    font-size: 0.9rem;
+  }
+
+  .topbar {
+    padding: 1.8rem 2.6rem;
   }
 }
 

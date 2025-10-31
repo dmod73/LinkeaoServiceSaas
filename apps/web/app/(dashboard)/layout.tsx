@@ -26,12 +26,17 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   }
 
   const tenantModules = await listTenantModules();
-  const activeModules = tenantModules.filter((module) => module.enabled).map((module) => module.name);
-  const linkServiceEnabled = tenantModules.some((module) => module.id === "linkservice" && module.enabled);
+  const activeModules = tenantModules.filter((module) => module.enabled);
+  const activeModuleLabels = activeModules.map((module) => module.name);
+  const linkServiceEnabled = activeModules.some((module) => module.id === "linkservice");
+  const invoiceEnabled = activeModules.some((module) => module.id === "appointments");
+  const invoicingEnabled = activeModules.some((module) => module.id === "invoicing");
   const navLinks = getDashboardNavItems({
     showAdmin: currentUser.isPlatformAdmin,
     enableLinkService: linkServiceEnabled,
-    activeModules
+    enableInvoice: invoiceEnabled,
+    enableInvoicing: invoicingEnabled,
+    activeModuleLabels
   });
   const roleLabel = ROLE_LABELS[currentUser.role] ?? currentUser.role;
   const displayName = currentUser.fullName || currentUser.email;
@@ -48,7 +53,9 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         <DashboardNav
           showAdmin={currentUser.isPlatformAdmin}
           enableLinkService={linkServiceEnabled}
-          activeModules={activeModules}
+          enableInvoice={invoiceEnabled}
+          enableInvoicing={invoicingEnabled}
+          activeModuleLabels={activeModuleLabels}
         />
       </aside>
       <div className={styles.content}>

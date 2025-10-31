@@ -1,0 +1,5342 @@
+﻿/* Appointments dashboard styles */
+.dashboard {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: var(--spacing-lg);
+  padding-bottom: var(--spacing-2xl);
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important; /* Permitir que el dropdown se muestre */
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 768px) {
+  .dashboard {
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard {
+    gap: var(--spacing-2xl);
+    padding-bottom: var(--spacing-3xl);
+  }
+}
+
+.sectionCard {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .sectionCard {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    gap: var(--spacing-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sectionCard {
+    padding: var(--spacing-xl);
+    gap: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+}
+
+@media (min-width: 640px) {
+  .sectionHeader {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sectionHeader {
+    gap: var(--spacing-lg);
+  }
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .sectionHeader h2 {
+    font-size: var(--font-size-xl);
+  }
+}
+
+.sectionHeader p {
+  margin: var(--spacing-xs) 0 0;
+  color: var(--text-secondary);
+  max-width: 100%; /* Mobile: 100% */
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: 768px) {
+  .sectionHeader p {
+    font-size: var(--font-size-base);
+    max-width: 32rem; /* Desktop: limitar ancho */
+  }
+}
+
+.sectionHeader button,
+.sectionHeader select,
+.sectionHeader input[type="date"] {
+  font: inherit;
+}
+
+.statsGrid {
+  display: grid;
+  gap: var(--spacing-sm);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--spacing-lg);
+  }
+}
+
+.statCard {
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, var(--color-neutral-800), var(--color-neutral-700));
+  color: var(--color-neutral-50);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition-all);
+}
+
+@media (min-width: 768px) {
+  .statCard {
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    gap: var(--spacing-sm);
+  }
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+}
+
+.statCard span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+@media (min-width: 768px) {
+  .statCard span {
+    font-size: var(--font-size-xs);
+  }
+}
+
+.statCard strong {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+}
+
+@media (min-width: 768px) {
+  .statCard strong {
+    font-size: 2rem;
+  }
+}
+
+.statCard_pending {
+  background: linear-gradient(135deg, var(--color-warning-500), var(--color-warning-600));
+}
+
+.statCard_confirmed {
+  background: linear-gradient(135deg, var(--color-success-500), var(--color-success-600));
+}
+
+.statCard_rejected {
+  background: linear-gradient(135deg, var(--color-error-500), var(--color-error-600));
+}
+
+.statCard_cancelled {
+  background: linear-gradient(135deg, var(--color-neutral-400), var(--color-neutral-500));
+}
+
+.statCard_completed {
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+}
+
+.calendarSection {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.calendarFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.calendarFilters label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: #0f172a;
+  gap: 0.35rem;
+}
+
+.calendarFilters select,
+.calendarFilters input {
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 10px;
+  padding: 0.4rem 0.65rem;
+  background: #ffffff;
+  min-width: 9rem;
+}
+
+.calendarGrid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.weekdayHeader {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.55);
+}
+
+.calendarDay {
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+  background: rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+  font: inherit;
+}
+
+.calendarDay small {
+  font-size: 0.68rem;
+  color: rgba(15, 23, 42, 0.55);
+}
+
+.calendarDay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px -24px rgba(15, 23, 42, 0.65);
+}
+
+.inMonth {
+  color: #0f172a;
+}
+
+.outMonth {
+  color: rgba(15, 23, 42, 0.35);
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.selectedDay {
+  background: #2563eb;
+  color: #000000 !important;
+}
+
+.selectedDay small {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.daySidebar {
+  background: rgba(15, 23, 42, 0.03);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.daySidebar h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.loading {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.55);
+  font-size: 0.9rem;
+}
+
+.empty {
+  color: rgba(15, 23, 42, 0.45);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+.appointmentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointmentItem {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.appointmentItem header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Ensure appointment times and service title ('Corte', etc.) are visible */
+.appointmentItem header strong,
+.appointmentItem>p {
+  color: #000000 !important;
+}
+
+.clientChip {
+  display: inline-flex;
+  flex-direction: column;
+  background: rgba(37, 99, 235, 0.08);
+  border-radius: 10px;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.85rem;
+  color: #2563eb;
+  gap: 0.2rem;
+}
+
+.clientChip small {
+  color: rgba(37, 99, 235, 0.65);
+  font-size: 0.75rem;
+}
+
+.clientNote {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(15, 23, 42, 0.7);
+}
+
+.appointmentActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.appointmentActions button,
+.sectionHeader button,
+.serviceForm button,
+.clientForm button,
+.appointmentForm button {
+  border: none;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  background: #0f172a;
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.appointmentActions button:hover,
+.sectionHeader button:hover,
+.serviceForm button:hover,
+.clientForm button:hover,
+.appointmentForm button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px -20px rgba(15, 23, 42, 0.8);
+}
+
+.availabilityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.availabilityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 23, 42, 0.03);
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  gap: 1rem;
+  color: #0f172a;
+}
+
+.availabilityRow span {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.availabilityInputs {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.availabilityInputs label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: #0f172a;
+}
+
+.availabilityInputs input {
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  padding: 0.35rem 0.55rem;
+}
+
+.timeOffSection header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  color: #0f172a;
+}
+
+.timeOffList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.timeOffList li {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  background: rgba(15, 23, 42, 0.03);
+  border-radius: 12px;
+  padding: 0.75rem;
+  align-items: end;
+}
+
+.timeOffList label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+  color: #0f172a;
+  gap: 0.35rem;
+}
+
+.timeOffList input {
+  border-radius: 8px;
+  border: 1px solid rgba(15, 23, 42, 0.16);
+  padding: 0.35rem 0.55rem;
+}
+
+.timeOffList button {
+  justify-self: start;
+}
+
+.servicesGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.servicesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.serviceItem {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background: rgba(15, 23, 42, 0.02);
+}
+
+.serviceItem header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.serviceItem ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: rgba(15, 23, 42, 0.7);
+  font-size: 0.9rem;
+}
+
+.serviceItem footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tagActive,
+.tagInactive {
+  font-size: 0.75rem;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-weight: 600;
+}
+
+.tagActive {
+  background: rgba(34, 197, 94, 0.18);
+  color: #15803d;
+}
+
+.tagInactive {
+  background: rgba(148, 163, 184, 0.2);
+  color: #475569;
+}
+
+.serviceForm {
+  border: 1px dashed rgba(15, 23, 42, 0.18);
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.serviceForm label,
+.clientForm label,
+.appointmentForm label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  color: #0f172a;
+  gap: 0.35rem;
+}
+
+.serviceForm input,
+.serviceForm textarea,
+.clientForm input,
+.appointmentForm input,
+.appointmentForm textarea,
+.appointmentForm select {
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  background: #ffffff;
+}
+
+.serviceForm textarea,
+.appointmentForm textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.inlineFields {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.clientsSection {
+  gap: 1.5rem;
+}
+
+.clientSearch input {
+  min-width: 15rem;
+}
+
+.clientsGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.clientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.clientsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px -32px rgba(15, 23, 42, 0.45);
+}
+
+.clientsTable th,
+.clientsTable td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.clientsTable thead {
+  background: rgba(15, 23, 42, 0.05);
+  color: #0f172a;
+}
+
+.clientsTable tbody tr {
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.clientsTable tbody tr:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.clientRowActive {
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.clientForms {
+  display: grid;
+  gap: 1rem;
+}
+
+.clientForm,
+.appointmentForm {
+  border: 1px dashed rgba(15, 23, 42, 0.18);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: rgba(15, 23, 42, 0.02);
+}
+
+.newClientFields {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #ffffff;
+}
+
+.newClientFields legend {
+  padding: 0 0.35rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.newClientFields p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.reportTableWrapper {
+  overflow-x: auto;
+}
+
+.reportFilters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.reportFilters .filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterSelect,
+.filterInput {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  padding: 8px 10px;
+  border-radius: 10px;
+  min-width: 140px;
+  font: inherit;
+  color: #0f172a;
+}
+
+.filterRange {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.filterActions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.resetButton {
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.resetButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -18px rgba(15, 23, 42, 0.6);
+  background: rgba(15, 23, 42, 0.03);
+}
+
+/* DESHABILITADO - Conflicto con mobile-first
+@media (max-width: 640px) {
+  .reportFilters {
+    gap: 8px;
+  }
+
+  .filterSelect,
+  .filterInput {
+    min-width: 120px;
+  }
+
+  .filterActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+*/
+
+.reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  /* min-width removido para permitir responsive en móviles */
+  overflow-x: auto; /* Permitir scroll horizontal solo si es necesario */
+}
+
+.reportTable th,
+.reportTable td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.reportTable th {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: rgba(15, 23, 42, 0.55);
+}
+
+.status_pending,
+.status_confirmed,
+.status_rejected,
+.status_cancelled,
+.status_completed {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status_pending {
+  background: rgba(251, 191, 36, 0.18);
+  color: #b45309;
+}
+
+.status_confirmed {
+  background: rgba(34, 197, 94, 0.18);
+  color: #15803d;
+}
+
+.status_rejected {
+  background: rgba(239, 68, 68, 0.18);
+  color: #b91c1c;
+}
+
+.status_cancelled {
+  background: rgba(148, 163, 184, 0.2);
+  color: #475569;
+}
+
+.status_completed {
+  background: rgba(59, 130, 246, 0.2);
+  color: #1d4ed8;
+}
+
+@media (max-width: 1024px) {
+  .clientsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendarSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .sectionCard {
+    padding: 1.25rem;
+  }
+
+  .availabilityRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .availabilityInputs,
+  .inlineFields {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .calendarFilters {
+    width: 100%;
+  }
+
+  .calendarFilters label {
+    flex: 1 1 45%;
+  }
+}
+
+.inactive {
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px dashed rgba(15, 23, 42, 0.2);
+  border-radius: 18px;
+  padding: 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: #0f172a;
+}
+
+.inactive h1 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.inactive p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.65);
+  font-size: 1rem;
+}
+
+.activateLink {
+  align-self: center;
+  padding: 0.65rem 1.4rem;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.activateLink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px -28px rgba(37, 99, 235, 0.65);
+}
+
+.publicActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.publicActions a,
+.publicActions button {
+  border-radius: 12px;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #ffffff;
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.publicActions a:hover,
+.publicActions button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 32px -28px rgba(15, 23, 42, 0.6);
+}
+
+.calendarFilters {
+  gap: 1rem;
+}
+
+.calendarFilters .rangeLabel {
+  min-width: 140px;
+}
+
+.dayScroller {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.dayNav {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dayList {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.dayButton {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 14px;
+  padding: 0.65rem 0.75rem;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dayButton small {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.55);
+}
+
+.dayButton em {
+  font-style: normal;
+  font-size: 0.75rem;
+  color: #2563eb;
+}
+
+.dayButtonActive {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.12);
+  box-shadow: 0 20px 45px -35px rgba(37, 99, 235, 0.8);
+}
+
+.statCardAction {
+  cursor: pointer;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  z-index: 50;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 18px;
+  width: min(560px, 95%);
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -40px rgba(15, 23, 42, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal responsive improvements */
+@media (max-width: 640px) {
+  .modal {
+    width: 96%;
+    max-height: 92vh;
+    border-radius: 16px;
+  }
+
+  .modalHeader {
+    padding: 1rem 1.2rem;
+  }
+
+  .modalBody {
+    padding: 1rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .modalHeader h3 {
+    font-size: 1rem;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+.modalHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+
+.modalHeader button {
+  border: none;
+  background: transparent;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modalBody {
+  padding: 1.2rem 1.4rem;
+  color: #0f172a;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modalBody ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modalBody li {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.modalBody li strong {
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.modalBody li span {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.modalBody li small {
+  display: block;
+  color: rgba(15, 23, 42, 0.6);
+  font-size: 0.75rem;
+}
+
+.modalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.modalActions button {
+  border-radius: 10px;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  background: #0f172a;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .dayList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .publicActions {
+    justify-content: flex-start;
+  }
+}
+
+.rangeLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #0f172a;
+}
+
+
+/* Additional styles for dashboard */
+.emptyState {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: rgba(15, 23, 42, 0.02);
+  border-radius: 12px;
+  border: 2px dashed rgba(15, 23, 42, 0.1);
+}
+
+.emptyState p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.5);
+  font-size: 1rem;
+}
+
+.urlContainer {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.urlInput {
+  flex: 1;
+  min-width: 250px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  background: rgba(15, 23, 42, 0.02);
+}
+
+.urlInput:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.appointmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointmentCard {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.25rem;
+  background: rgba(15, 23, 42, 0.01);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.appointmentCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -12px rgba(15, 23, 42, 0.2);
+}
+
+.appointmentTime {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border-radius: 12px;
+  padding: 0.75rem;
+  min-width: 90px;
+  text-align: center;
+}
+
+.appointmentDate {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+.appointmentHour {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.appointmentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.appointmentClient {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.appointmentClient strong {
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+
+.appointmentClient span {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+.appointmentService {
+  font-size: 0.9rem;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.duration {
+  font-size: 0.75rem;
+  background: rgba(15, 23, 42, 0.08);
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  color: rgba(15, 23, 42, 0.7);
+}
+
+.appointmentNote {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.6);
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.04);
+  border-radius: 8px;
+  border-left: 3px solid #3b82f6;
+}
+
+.appointmentCreated {
+  font-size: 0.8rem;
+  color: #64748b;
+  padding: 0.4rem 0.75rem;
+  background: rgba(100, 116, 139, 0.08);
+  border-radius: 8px;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.appointmentStatus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.badge_pending {
+  background: rgba(251, 191, 36, 0.15);
+  color: #f59e0b;
+}
+
+.badge_confirmed {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+.badge_completed {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
+}
+
+.badge_cancelled {
+  background: rgba(148, 163, 184, 0.15);
+  color: #64748b;
+}
+
+.badge_rejected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+}
+
+.availabilityCard {
+  background: rgba(15, 23, 42, 0.04);
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.weekdayLabel {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f172a;
+  text-transform: capitalize;
+}
+
+.timeRange {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.7);
+  font-family: 'Courier New', monospace;
+}
+
+.subsectionTitle {
+  margin: 1.5rem 0 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.timeOffCard {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.timeOffDates {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #dc2626;
+}
+
+.timeOffReason {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.6);
+}
+
+@media (max-width: 768px) {
+  .appointmentCard {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .appointmentTime {
+    min-width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .availabilityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Button styles */
+.primaryButton,
+.secondaryButton {
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+/* ===== BUTTONS ===== */
+.primaryButton {
+  background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+  color: var(--color-neutral-50);
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: var(--transition-all);
+  box-shadow: var(--shadow-md);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .primaryButton {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+.secondaryButton {
+  background: var(--color-neutral-100);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+@media (min-width: 768px) {
+  .secondaryButton {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+}
+
+.secondaryButton:hover {
+  background: var(--color-neutral-200);
+  transform: translateY(-1px);
+}
+
+/* ===== DASHBOARD HEADER ===== */
+.dashboardHeader {
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 10; /* Menor que modales (z-index: 1000) */
+  border-bottom: 1px solid var(--border-light);
+  /* NO overflow hidden - permitir dropdown */
+}
+
+.headerTop {
+  display: flex;
+  flex-direction: column !important;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  align-items: stretch !important;
+}
+
+@media (min-width: 640px) {
+  .headerTop {
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center !important;
+    padding: var(--spacing-lg) var(--spacing-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .headerTop {
+    padding: var(--spacing-lg) var(--spacing-2xl);
+  }
+}
+
+.headerTop h1 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+@media (min-width: 768px) {
+  .headerTop h1 {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* ===== TABS NAVIGATION ===== */
+/* ===== TABS NAVIGATION ===== */
+
+/* Mobile/Desktop visibility helpers */
+.mobileOnly {
+  display: block !important;
+}
+
+.desktopOnly {
+  display: none !important;
+}
+
+@media (min-width: 1024px) {
+  .mobileOnly {
+    display: none !important;
+  }
+  
+  .desktopOnly {
+    display: flex !important;
+  }
+}
+
+.tabNav {
+  display: flex;
+  gap: 0;
+  padding: 0 var(--spacing-md);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-300) transparent;
+  position: relative;
+  /* Mobile: permitir scroll horizontal suave */
+  white-space: nowrap;
+}
+
+/* Mobile: tabs más compactos */
+@media (max-width: 639px) {
+  .tabNav {
+    padding: 0 var(--spacing-sm) !important;
+    gap: var(--spacing-xs) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .tabNav {
+    padding: 0 var(--spacing-xl) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tabNav {
+    padding: 0 var(--spacing-2xl) !important;
+  }
+}
+
+.tabNav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabNav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tabNav::-webkit-scrollbar-thumb {
+  background: var(--color-primary-300);
+  border-radius: var(--radius-full);
+}
+
+.tabNav::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-400);
+}
+
+.tab,
+.tabActive {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  border-bottom: 3px solid transparent;
+  transition: var(--transition-all);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Mobile: tabs más legibles y con mejor área de toque */
+@media (max-width: 639px) {
+  .tab,
+  .tabActive {
+    padding: var(--spacing-md) var(--spacing-md) !important;
+    font-size: 0.9rem !important; /* 14.4px - más legible en móvil */
+    min-width: max-content;
+  }
+}
+
+@media (min-width: 768px) {
+  .tab,
+  .tabActive {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+}
+
+.tab:hover {
+  color: var(--color-primary-600);
+  background: var(--color-primary-50);
+}
+
+.tabActive {
+  color: var(--color-primary-600);
+  border-bottom-color: var(--color-primary-600);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ===== TAB DROPDOWN (Mobile) ===== */
+.tabDropdownContainer {
+  position: relative;
+  width: 100%;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.tabDropdownButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-600);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tabDropdownButton:hover {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-300);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabDropdownButton:active {
+  transform: scale(0.98);
+}
+
+.dropdownIcon {
+  transition: transform 0.2s ease;
+  font-size: 1.2rem;
+}
+
+.dropdownIconOpen {
+  transform: rotate(180deg);
+}
+
+/* Backdrop semi-transparente */
+.dropdownBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 998;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Menú simple del dropdown - SOLUCIÓN DEFINITIVA */
+.tabDropdownMenuSimple {
+  position: absolute;
+  top: 100%;
+  left: var(--spacing-md);
+  right: var(--spacing-md);
+  margin-top: 4px;
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 999;
+  max-height: 400px;
+  overflow-y: auto;
+  animation: slideDown 0.2s ease;
+}
+
+/* Portal version - se posiciona con JavaScript usando position fixed */
+.tabDropdownMenuPortal {
+  /* Position será establecida por JavaScript */
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  max-height: 70vh;
+  overflow-y: auto;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tabDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.tabDropdownItem:first-child {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.tabDropdownItem:last-child {
+  border-bottom: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.tabDropdownItem:hover {
+  background: var(--color-primary-50);
+  color: var(--color-primary-600);
+}
+
+.tabDropdownItemActive {
+  background: var(--color-primary-100) !important;
+  color: var(--color-primary-700) !important;
+  font-weight: var(--font-weight-semibold);
+}
+
+.tabDropdownItemActive:hover {
+  background: var(--color-primary-100) !important;
+}
+
+/* ===== TAB CONTENT ===== */
+.tabContent {
+  padding: var(--spacing-md);
+  max-width: 100% !important; /* Forzar 100% en móvil */
+  width: 100% !important;
+  margin: 0 auto;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 768px) {
+  .tabContent {
+    padding: var(--spacing-xl) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .tabContent {
+    padding: var(--spacing-2xl) !important;
+  }
+}
+
+.overviewTab,
+.calendarTab,
+.appointmentsTab,
+.clientsTab,
+.settingsTab,
+.reportsTab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ===== SECTION CARDS ===== */
+.sectionCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.sectionHeader h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ===== QUICK ACTIONS ===== */
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.actionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.actionCard:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.actionIcon {
+  font-size: 2rem;
+}
+
+/* ===== CALENDAR ===== */
+.calendarControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.viewToggle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toggleButton,
+.toggleActive {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.toggleButton:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.toggleActive {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.dateNav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dateNav button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.dateNav button:hover {
+  background: #f3f4f6;
+}
+
+.dateNav span {
+  font-weight: 600;
+  color: #1f2937;
+  text-transform: capitalize;
+  min-width: 200px;
+  text-align: center;
+}
+
+.monthCalendar,
+.dayCalendar {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== CLIENTS GRID ===== */
+.clientsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.clientCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.clientCard:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.clientCard .inlineConfirmation {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.clientAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.clientInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.clientInfo strong {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deleteButton {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  opacity: 1;
+}
+
+.deleteButton:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.deleteButton:active {
+  transform: scale(0.95);
+}
+
+/* Modal de confirmaci�n elegante */
+.confirmModal {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 95%; /* Mobile: casi todo el ancho */
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .confirmModal {
+    max-width: 420px; /* Desktop: limitar ancho */
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.confirmModalIcon {
+  margin-bottom: 1rem;
+  animation: iconBounce 0.5s ease-out;
+}
+
+@keyframes iconBounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.confirmModalTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 1rem 0;
+}
+
+.confirmModalMessage {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0 0 2rem 0;
+  line-height: 1.5;
+}
+
+.confirmModalMessage strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.confirmModalActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.cancelButton {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.cancelButton:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.confirmDeleteButton {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.confirmDeleteButton:hover {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+}
+
+.confirmDeleteButton:active {
+  transform: translateY(0);
+}
+
+.clientInfo span {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== FILTERS & FORMS ===== */
+.filterBar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 150px;
+}
+
+.filterGroup label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.filterGroup select,
+.filterGroup input {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.filterGroup select:focus,
+.filterGroup input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.helpText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0.5rem 0 0 0;
+}
+
+/* ===== MODALS ===== */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 100%; /* Mobile: 100% */
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+@media (min-width: 640px) {
+  .modal {
+    max-width: 600px; /* Desktop: limitar ancho */
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.closeButton {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #6b7280;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  background: #e5e7eb;
+  color: #1f2937;
+}
+
+.modalBody {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  justify-content: flex-end;
+}
+
+/* ===== STEP INDICATOR ===== */
+.stepIndicator {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.stepIndicator span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #9ca3af;
+  transition: all 0.2s;
+}
+
+.stepActive {
+  color: #3b82f6 !important;
+  font-weight: 600 !important;
+}
+
+/* ===== FORM SECTIONS ===== */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formFields input,
+.formFields textarea {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  transition: all 0.2s;
+}
+
+.formFields input:focus,
+.formFields textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* ===== CLIENT LIST ===== */
+.clientList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.clientItem,
+.clientItemSelected {
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.clientItem:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.clientItemSelected {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.clientItem strong,
+.clientItemSelected strong {
+  font-size: 0.9375rem;
+  color: #1f2937;
+}
+
+.clientItem span,
+.clientItemSelected span {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+/* ===== SERVICE GRID ===== */
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.serviceCard {
+  padding: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.serviceCard:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.serviceCard strong {
+  font-size: 0.9375rem;
+  color: #1f2937;
+}
+
+.serviceCard span {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+/* ===== HOUR/BREAK ROWS ===== */
+.hourRow,
+.breakRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  flex: 1;
+}
+
+.checkbox input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.checkbox span {
+  font-weight: 500;
+  color: #374151;
+}
+
+.timeInputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timeInputs input {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+}
+
+.timeInputs span {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.breakRow select {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.breakRow button {
+  padding: 0.5rem;
+  border: none;
+  background: #fee2e2;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.breakRow button:hover {
+  background: #fecaca;
+}
+
+/* ===== APPOINTMENT ACTIONS ===== */
+.statusActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.statusActions button {
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.statusActions button:hover {
+  background: #e5e7eb;
+  transform: scale(1.1);
+}
+/* ===== RESPONSIVE ===== */
+/* Note: Responsive styles moved to component definitions above using mobile-first min-width approach */
+
+.serviceCardSelected {
+  padding: 1rem;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+  background: #eff6ff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.serviceCardSelected strong {
+  font-size: 0.9375rem;
+  color: #1f2937;
+}
+
+.serviceCardSelected span {
+  font-size: 0.8125rem;
+  color: #6b7280;
+}
+
+/* ===== ELIMINADO FONDO BLANCO - CONTAINERS TRANSPARENTES ===== */
+.sectionCard {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ===== SERVICIOS TAB ===== */
+.servicesTab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.serviceCardLarge {
+  background: #ffffff;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.serviceCardLarge:hover {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+  transform: translateY(-2px);
+}
+
+.serviceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.serviceHeader h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #000000 !important;
+}
+
+.serviceHeader h3::selection {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.serviceHeader h3::-moz-selection {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.serviceDescription {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.serviceDetails {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* ===== TOGGLE SWITCH ===== */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.switch input:checked+.slider {
+  background-color: #10b981;
+}
+
+.switch input:checked+.slider:before {
+  transform: translateX(24px);
+}
+
+/* ===== FORM GROUPS ===== */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-md);
+}
+
+@media (min-width: 640px) {
+  .formRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.sectionHeader h2 {
+  color: #111827;
+  font-weight: 700;
+}
+
+/* ===== RESPONSIVE MEJORADO ===== */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .servicesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  .clientsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardHeader {
+    position: relative;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .headerTop h1 {
+    font-size: 1.5rem;
+  }
+
+  .tabNav {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tabNav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .statCard {
+    padding: 1rem;
+  }
+
+  .statCard strong {
+    font-size: 1.75rem;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+  }
+
+  .actionCard {
+    padding: 1.25rem;
+  }
+
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .clientsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .appointmentCard {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .appointmentTime {
+    border-radius: 12px;
+  }
+
+  .sectionCard {
+    padding: 1rem;
+  }
+
+  .modal {
+    max-width: calc(100% - 2rem);
+    margin: 1rem;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+
+  .calendarControls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filterBar {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabContent {
+    padding: 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard {
+    padding: 1.5rem;
+  }
+
+  .statCard span {
+    font-size: 0.875rem;
+  }
+
+  .statCard strong {
+    font-size: 2rem;
+  }
+
+  .tab,
+  .tabActive {
+    font-size: 0.8125rem;
+    padding: 0.875rem 1rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.125rem;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    font-size: 0.875rem;
+    padding: 0.625rem 1rem;
+  }
+}
+
+/* ===== BACKGROUND ORIGINAL (sin contenedor blanco padre) ===== */
+/* Note: Estilos de .dashboard y .dashboardHeader consolidados al inicio del archivo */
+
+.overviewTab,
+.calendarTab,
+.appointmentsTab,
+.clientsTab,
+.servicesTab,
+.settingsTab,
+.reportsTab {
+  background: transparent;
+}
+
+/* ===== MEJORAR CONTRASTE Y VISIBILIDAD ===== */
+.dashboardHeader {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dashboardHeader h1 {
+  color: #0f172a;
+  font-weight: 800;
+  text-shadow: none;
+}
+
+.tab,
+.tabActive {
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.tabActive {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+}
+
+/* ===== CONTAINERS M�S GRANDES Y VISIBLES ===== */
+.sectionCard {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 2rem;
+}
+
+.sectionHeader h2 {
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.sectionHeader h3 {
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+/* ===== STATS GRID M�S GRANDE ===== */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  padding: 2rem;
+  border-radius: 16px;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.statCard span {
+  font-size: 1.125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statCard strong {
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+/* ===== ACCIONES R�PIDAS M�S GRANDES ===== */
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+
+.actionCard {
+  padding: 2rem;
+  min-height: 140px;
+  font-size: 1.125rem;
+}
+
+.actionIcon {
+  font-size: 2.5rem;
+}
+
+/* ===== APPOINTMENT CARDS M�S GRANDES ===== */
+.appointmentCard {
+  padding: 1.75rem;
+  border-radius: 16px;
+  min-height: 120px;
+}
+
+.appointmentTime {
+  padding: 1.5rem;
+  min-width: 140px;
+}
+
+.appointmentDate {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.appointmentHour {
+  font-size: 1.75rem;
+  font-weight: 900;
+}
+
+.appointmentClient strong {
+  font-size: 1.125rem;
+  color: #0f172a;
+}
+
+.appointmentService {
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 600;
+}
+
+/* ===== BADGES M�S VISIBLES ===== */
+.badge {
+  padding: 0.625rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  border-radius: 12px;
+}
+
+/* ===== BOTONES M�S GRANDES ===== */
+.primaryButton,
+.secondaryButton {
+  padding: 1rem 2rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  border-radius: 12px;
+  min-height: 48px;
+}
+
+/* ===== TEXTOS OSCUROS Y VISIBLES ===== */
+.emptyState p {
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.helpText {
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.clientCard strong,
+.serviceCardLarge h3 {
+  color: #000000;
+  font-weight: 700;
+}
+
+.clientInfo span,
+.serviceDescription {
+  color: #475569;
+  font-weight: 500;
+}
+
+/* ===== CALENDAR STYLES ===== */
+.monthCalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.calendarHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 2px solid rgba(37, 99, 235, 0.2);
+}
+
+.calendarHeaderDay {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calendarDay {
+  aspect-ratio: 1;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100px;
+}
+
+.calendarDay:hover {
+  border-color: #3b82f6;
+  background: rgba(239, 246, 255, 0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.calendarDayNumber {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.calendarDayOtherMonth {
+  opacity: 0.3;
+}
+
+.calendarDayToday {
+  border-color: #3b82f6;
+  background: rgba(239, 246, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.calendarDaySelected {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.calendarDaySelected .calendarDayNumber {
+  color: white;
+}
+
+.calendarDayDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  margin-top: auto;
+}
+
+.calendarDayCount {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  margin-top: 0.25rem;
+}
+
+.dayCalendar {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.dayCalendar h3 {
+  color: #000000 !important;
+  font-weight: 800;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+}
+
+.dayCalendarTitle {
+  color: #000000 !important;
+  background-color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  text-transform: capitalize;
+  display: inline-block;
+}
+
+/* ===== RESPONSIVE MEJORADO PARA M�VILES ===== */
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .tabContent {
+    padding: 1.5rem;
+  }
+
+  .sectionCard {
+    padding: 1.75rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.5rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .statCard {
+    padding: 1.75rem;
+    min-height: 130px;
+  }
+
+  .statCard span {
+    font-size: 1rem;
+  }
+
+  .statCard strong {
+    font-size: 2.5rem;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .actionCard {
+    min-height: 120px;
+  }
+
+  .appointmentCard {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .appointmentTime {
+    border-radius: 12px;
+    min-width: auto;
+  }
+
+  .calendarHeaderDay {
+    font-size: 0.75rem;
+  }
+
+  .calendarDay {
+    min-height: 80px;
+    padding: 0.5rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerTop h1 {
+    font-size: 1.75rem;
+  }
+
+  .tabContent {
+    padding: 1rem;
+  }
+
+  .sectionCard {
+    padding: 1.5rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.375rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .statCard {
+    padding: 2rem;
+    min-height: 140px;
+  }
+
+  .statCard span {
+    font-size: 1.125rem;
+  }
+
+  .statCard strong {
+    font-size: 3rem;
+  }
+
+  .actionCard {
+    padding: 1.75rem;
+    min-height: 130px;
+    font-size: 1.125rem;
+  }
+
+  .actionIcon {
+    font-size: 2.5rem;
+  }
+
+  .appointmentCard {
+    padding: 1.5rem;
+  }
+
+  .appointmentClient strong {
+    font-size: 1.125rem;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    padding: 1.125rem;
+    font-size: 1.125rem;
+  }
+
+  .calendarHeaderDay {
+    font-size: 0.625rem;
+    padding: 0.5rem 0;
+  }
+
+  .calendarDay {
+    min-height: 70px;
+    padding: 0.375rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 0.875rem;
+  }
+
+  .calendarDayCount {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+  }
+}
+
+/* ===== ELEGANCIA Y PROFESIONALISMO ===== */
+/* Note: Estilos de .dashboard consolidados al inicio del archivo */
+
+.sectionCard {
+  transition: var(--transition-all);
+}
+
+.sectionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* ===== ANIMACIONES SUAVES ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sectionCard,
+.statCard,
+.actionCard,
+.appointmentCard {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* ===== MEJORAS FINALES DE RESPONSIVE Y CONTRASTE ===== */
+
+/* Tabs con mejor contraste y tama�o */
+.tab,
+.tabActive {
+  white-space: nowrap;
+  padding: 1rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1e293b;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.tabActive {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+}
+
+/* Botones de vista de calendario m�s grandes */
+.viewToggle button {
+  min-width: 100px;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Calendario mensual - mejor tama�o en m�viles */
+.monthCalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendarDay {
+  aspect-ratio: 1 / 1;
+  min-height: 90px;
+  border-radius: 12px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendarDayNumber {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.calendarDayCount {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+/* Empty states m�s visibles */
+.emptyState {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.emptyState p {
+  font-size: 1.125rem;
+  color: #1e293b;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* Mejora de tarjetas de clientes */
+.clientCard {
+  padding: 1.5rem;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.clientAvatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.clientInfo strong {
+  font-size: 1.0625rem;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.clientInfo span {
+  font-size: 0.9375rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Servicios - mejora de tarjetas */
+.serviceCardLarge {
+  padding: 1.75rem;
+  min-height: 160px;
+}
+
+.serviceCardLarge h3 {
+  font-size: 1.25rem;
+  color: #000000 !important;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.serviceDescription {
+  font-size: 0.9375rem;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.serviceDetails {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.serviceDetails span {
+  font-size: 1rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* Switch toggle m�s grande */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: 0.3s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.switch input:checked+.slider {
+  background-color: #10b981;
+}
+
+.switch input:checked+.slider:before {
+  transform: translateX(26px);
+}
+
+/* Modales m�s anchos en desktop */
+@media (min-width: 640px) {
+  .modal {
+    max-width: 600px;
+    width: 90%;
+  }
+}
+
+.modalBody {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS MEJORADOS ===== */
+
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .calendarDay {
+    min-height: 85px;
+    padding: 0.625rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 1rem;
+  }
+}
+
+/* Tablets peque�as y m�viles grandes (600px - 768px) */
+@media (max-width: 768px) {
+  .dashboard {
+    gap: 1.5rem;
+  }
+
+  .sectionCard {
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.25rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .statCard {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .statCard strong {
+    font-size: 1.875rem;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .actionCard {
+    min-height: 100px;
+    font-size: 1rem;
+  }
+
+  .calendarDay {
+    min-height: 75px;
+    padding: 0.5rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 0.9375rem;
+  }
+
+  .calendarDayCount {
+    font-size: 0.6875rem;
+    padding: 0.125rem 0.375rem;
+  }
+
+  .clientCard,
+  .serviceCardLarge {
+    padding: 1.25rem;
+  }
+
+  .clientAvatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+
+  /* Tabs scroll horizontal */
+  .tabNav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .tab,
+  .tabActive {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .modal {
+    width: 95%;
+    max-width: 500px;
+  }
+}
+
+/* M�viles (max 600px) */
+@media (max-width: 600px) {
+  .headerTop {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .headerTop h1 {
+    font-size: 1.5rem;
+  }
+
+  .headerTop button {
+    width: 100%;
+  }
+
+  .sectionCard {
+    padding: 1.25rem;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .sectionHeader button {
+    width: 100%;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .statCard {
+    padding: 1.75rem;
+    min-height: 120px;
+  }
+
+  .statCard strong {
+    font-size: 2.25rem;
+  }
+
+  .calendarHeader {
+    margin-bottom: 0.375rem;
+  }
+
+  .calendarHeaderDay {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.25rem;
+  }
+
+  .monthCalendarGrid {
+    gap: 0.375rem;
+  }
+
+  .calendarDay {
+    min-height: 70px;
+    padding: 0.375rem;
+    border-radius: 8px;
+  }
+
+  .calendarDayNumber {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .calendarDayCount {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.25rem;
+  }
+
+  .viewToggle {
+    width: 100%;
+  }
+
+  .viewToggle button {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .clientsGrid,
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .emptyState {
+    padding: 2rem 1rem;
+  }
+
+  .emptyState p {
+    font-size: 1rem;
+  }
+
+  /* Appointment card stack en m�vil */
+  .appointmentCard {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .appointmentTime {
+    border-radius: 10px;
+  }
+
+  /* Modales full width en m�vil */
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+
+  .modalBody {
+    max-height: 60vh;
+  }
+
+  /* Botones full width */
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  /* Form inputs m�s grandes */
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    font-size: 16px;
+    /* Prevent zoom on iOS */
+    padding: 0.875rem;
+  }
+}
+
+/* M�viles muy peque�os (max 375px) */
+@media (max-width: 375px) {
+  .dashboard {
+    gap: 1.25rem;
+  }
+
+  .sectionCard {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.125rem;
+  }
+
+  .calendarDay {
+    min-height: 60px;
+    padding: 0.25rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 0.8125rem;
+  }
+
+  .calendarDayCount {
+    font-size: 0.5625rem;
+  }
+
+  .statCard strong {
+    font-size: 2rem;
+  }
+
+  .tab,
+  .tabActive {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* ===== MEJORAS DE ACCESIBILIDAD ===== */
+
+/* Focus states visibles */
+.tab:focus-visible,
+.tabActive:focus-visible,
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.calendarDay:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Contraste mejorado en elementos interactivos */
+.primaryButton,
+.secondaryButton {
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: rgba(15, 23, 42, 0.08);
+}
+
+/* Indicador de loading */
+.primaryButton:disabled,
+.secondaryButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== ANIMACIONES SUAVES ===== */
+.sectionCard,
+.statCard,
+.actionCard,
+.appointmentCard,
+.clientCard,
+.serviceCardLarge {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sectionCard:hover,
+.actionCard:hover,
+.clientCard:hover,
+.serviceCardLarge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scrollbar styling */
+.tabNav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabNav::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.tabNav::-webkit-scrollbar-thumb {
+  background: rgba(37, 99, 235, 0.3);
+  border-radius: 4px;
+}
+
+.tabNav::-webkit-scrollbar-thumb:hover {
+  background: rgba(37, 99, 235, 0.5);
+}
+
+/* ===== MEJORAS DE CONTRASTE Y ELEGANCIA ===== */
+
+/* Fondo del dashboard */
+.dashboard {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  min-height: 100vh;
+}
+/* Note: Estilos de .dashboardHeader, .tab y .tabContent consolidados al inicio del archivo */
+
+/* Tarjetas con glassmorphism mejorado */
+.sectionCard {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow:
+    0 20px 60px -20px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.sectionCard:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 25px 70px -25px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+/* Headers de secciones */
+.sectionHeader h2 {
+  color: #0f172a;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* Calendario mensual - mejor dise�o */
+.monthCalendar {
+  padding: 1.5rem;
+}
+
+.calendarHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.15);
+}
+
+.calendarHeaderDay {
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.monthCalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.75rem;
+}
+
+.calendarDay {
+  aspect-ratio: 1;
+  min-height: 100px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.calendarDay:hover {
+  border-color: #3b82f6;
+  background: rgba(239, 246, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+}
+
+.calendarDayNumber {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.calendarDayOtherMonth {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.calendarDayOtherMonth .calendarDayNumber {
+  color: #94a3b8;
+}
+
+.calendarDayToday {
+  border-color: #3b82f6;
+  border-width: 3px;
+  background: rgba(239, 246, 255, 0.8);
+  box-shadow:
+    0 0 0 4px rgba(59, 130, 246, 0.1),
+    0 8px 20px rgba(59, 130, 246, 0.2);
+}
+
+.calendarDayToday .calendarDayNumber {
+  color: #3b82f6;
+}
+
+.calendarDayCount {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  white-space: nowrap;
+  margin-top: auto;
+}
+
+/* Toggle de vista mejorado */
+.viewToggle {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.03);
+  padding: 0.375rem;
+  border-radius: 12px;
+}
+
+.toggleButton,
+.toggleActive {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggleButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #475569;
+}
+
+.toggleActive {
+  background: white;
+  color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Lista de citas mejorada */
+.appointmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.appointmentCard {
+  background: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.appointmentCard:hover {
+  border-color: #3b82f6;
+  background: white;
+  transform: translateX(4px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+}
+
+.appointmentTime {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-align: center;
+  min-width: 120px;
+}
+
+.appointmentDate {
+  font-size: 0.875rem;
+  font-weight: 600;
+  opacity: 0.9;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.appointmentHour {
+  font-size: 1.75rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.appointmentInfo {
+  flex: 1;
+}
+
+.appointmentClient {
+  margin-bottom: 0.75rem;
+}
+
+.appointmentClient strong {
+  font-size: 1.125rem;
+  color: #0f172a;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.appointmentClient span {
+  color: #64748b;
+  font-size: 0.9375rem;
+}
+
+.appointmentService {
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.appointmentService::before {
+  content: "";
+  font-size: 1.125rem;
+}
+
+/* Badges de estado mejorados */
+.badge {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge_pending {
+  background: linear-gradient(135deg, #fef3c7, #fde047);
+  color: #92400e;
+}
+
+.badge_confirmed {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #065f46;
+}
+
+.badge_completed {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+}
+
+.badge_cancelled {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  color: #475569;
+}
+
+.badge_rejected {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #991b1b;
+}
+
+/* Empty states elegantes */
+.emptyState {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.emptyState p {
+  font-size: 1.125rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.emptyState button {
+  margin-top: 1rem;
+}
+
+/* Botones primarios mejorados */
+.primaryButton {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.primaryButton:active {
+  transform: translateY(0);
+}
+
+/* Botones secundarios */
+.secondaryButton {
+  background: rgba(0, 0, 0, 0.04);
+  color: #475569;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Responsive mejorado */
+@media (max-width: 768px) {
+  .tabContent {
+    padding: 1rem;
+  }
+
+  .sectionCard {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
+
+  .monthCalendarGrid {
+    gap: 0.5rem;
+  }
+
+  .calendarDay {
+    min-height: 80px;
+    padding: 0.75rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 1.125rem;
+  }
+
+  .calendarDayCount {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .appointmentCard {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .appointmentTime {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendarDay {
+    min-height: 70px;
+    padding: 0.5rem;
+  }
+
+  .calendarDayNumber {
+    font-size: 1rem;
+  }
+
+  .monthCalendarGrid {
+    gap: 0.375rem;
+  }
+}
+
+/* ===== CORRECCI�N DE COLORES DE TEXTO PARA FONDO OSCURO ===== */
+
+/* Headers de secci�n - TEXTO BLANCO */
+.sectionHeader h2 {
+  color: #ffffff !important;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.sectionHeader h3 {
+  color: #ffffff !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* T�tulos principales - TEXTO BLANCO */
+.appointmentsTab h2,
+.clientsTab h2,
+.servicesTab h2,
+.reportsTab h2 {
+  color: #ffffff !important;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Texto de "0 TOTAL" y contadores - TEXTO BLANCO */
+.sectionHeader .badge,
+.sectionHeader span {
+  color: #ffffff !important;
+  background: rgba(59, 130, 246, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+/* Empty states - TEXTO BLANCO */
+.emptyState {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #ffffff !important;
+}
+
+.emptyState p {
+  font-size: 1.25rem;
+  color: #e2e8f0 !important;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Textos informativos - TEXTO CLARO */
+.helpText {
+  color: #cbd5e1 !important;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Asegurar que t�tulos en tabs se vean */
+.appointmentsTab .sectionHeader h2,
+.clientsTab .sectionHeader h2,
+.servicesTab .sectionHeader h2,
+.reportsTab .sectionHeader h2,
+.settingsTab .sectionHeader h2 {
+  color: #ffffff !important;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  display: inline-block;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* Labels de formulario - TEXTO BLANCO */
+.formGroup label {
+  color: #f1f5f9 !important;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Labels dentro de modales - TEXTO OSCURO para contraste */
+.modal .formGroup label {
+  color: #1f2937 !important;
+}
+
+/* Texto en DateNav */
+.dateNav span {
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 1.125rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Texto en DateNav dentro de tarjetas blancas - M�S ESPEC�FICO */
+.sectionCard .dateNav span {
+  color: #0f172a !important;
+  text-shadow: none;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+/* Texto en DateNav dentro del CalendarTab */
+.calendarTab .dateNav span {
+  color: #0f172a !important;
+  text-shadow: none;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+/* Asegurar visibilidad en todo el dashboard */
+.dashboard h1,
+.dashboard h2,
+.dashboard h3 {
+  color: #ffffff !important;
+}
+
+/* "Panel de Citas" en negro - M�S ESPEC�FICO */
+.dashboardHeader .headerTop h1 {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+/* T�tulos de modales en negro */
+.modalHeader h2 {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+/* Texto dentro de tarjetas BLANCAS sigue oscuro */
+.sectionCard h2,
+.sectionCard h3 {
+  color: #0f172a !important;
+  text-shadow: none;
+}
+
+.sectionCard .sectionHeader h2,
+.sectionCard .sectionHeader h3 {
+  color: #0f172a !important;
+  text-shadow: none;
+  background: none;
+  padding: 0;
+}
+
+/* Servicios - h3 NEGRO */
+.serviceCardLarge h3,
+.serviceHeader h3 {
+  color: #000000 !important;
+  text-shadow: none !important;
+}
+
+/* Correcci�n espec�fica para cada tab */
+.tabContent>h2 {
+  color: #ffffff !important;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  display: inline-block;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* ===== MODAL DE CITAS DEL D�A ===== */
+.modalLarge {
+  background: white;
+  border-radius: 16px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.appointmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointmentCard {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: all 0.2s;
+}
+
+.appointmentCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.appointmentCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.appointmentTime {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.timeIcon {
+  font-size: 1.25rem;
+}
+
+.appointmentCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appointmentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.appointmentInfo p {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: #4b5563;
+}
+
+.appointmentInfo strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.appointmentActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.actionButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.actionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btnConfirm {
+  background: #10b981;
+  color: white;
+}
+
+.btnConfirm:hover:not(:disabled) {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btnComplete {
+  background: #3b82f6;
+  color: white;
+}
+
+.btnComplete:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.btnCancel {
+  background: #ef4444;
+  color: white;
+}
+
+.btnCancel:hover:not(:disabled) {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btnReactivate {
+  background: #f59e0b;
+  color: white;
+}
+
+.btnReactivate:hover:not(:disabled) {
+  background: #d97706;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+/* Cursor pointer para d�as con citas */
+.calendarDayHasAppointments {
+  cursor: pointer;
+}
+
+.calendarDayHasAppointments:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+/* ===== TOAST NOTIFICATIONS ===== */
+.toast {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+  animation: slideInRight 0.3s ease-out, fadeOut 0.3s ease-in 3.7s;
+  z-index: 10000;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.toastSuccess {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.toastError {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+.toastWarning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.toastInfo {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+}
+
+.toastIcon {
+  font-size: 1.5rem;
+  font-weight: bold;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.toastMessage {
+  flex: 1;
+  font-size: 0.9375rem;
+}
+
+/* ===== REPORTS TAB - NEW STYLES ===== */
+.statCardActive {
+  transform: scale(1.05);
+  box-shadow: 0 25px 50px -20px rgba(15, 23, 42, 0.9);
+  border: 3px solid rgba(255, 255, 255, 0.6);
+}
+
+.appointmentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reportAppointmentCard {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(249, 250, 251, 0.95));
+  transition: all 0.2s ease;
+  align-items: start;
+}
+
+.reportAppointmentCard:hover {
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: 0 8px 24px -12px rgba(37, 99, 235, 0.25);
+  transform: translateY(-2px);
+}
+
+.reportAppointmentDate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: white;
+  border-radius: 12px;
+  padding: 0.75rem;
+  min-width: 75px;
+  text-align: center;
+}
+
+.reportDateDay {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.reportDateMonth {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+  margin-top: 0.15rem;
+}
+
+.reportDateTime {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.reportAppointmentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.reportAppointmentClient {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.reportAppointmentClient strong {
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+
+.reportClientEmail,
+.reportClientPhone {
+  font-size: 0.85rem;
+  color: rgba(15, 23, 42, 0.65);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.reportAppointmentService {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(15, 23, 42, 0.04);
+  border-radius: 8px;
+}
+
+.reportServiceLabel {
+  font-size: 0.8rem;
+  color: rgba(15, 23, 42, 0.55);
+  font-weight: 500;
+}
+
+.reportAppointmentService strong {
+  color: #0f172a;
+  font-size: 0.95rem;
+}
+
+.reportServiceDuration,
+.reportServicePrice {
+  font-size: 0.8rem;
+  color: rgba(15, 23, 42, 0.65);
+  background: rgba(15, 23, 42, 0.06);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+}
+
+.reportAppointmentNote {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.65rem;
+  background: rgba(59, 130, 246, 0.08);
+  border-left: 3px solid #3b82f6;
+  border-radius: 6px;
+}
+
+.reportNoteLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1e40af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.reportAppointmentNote p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(15, 23, 42, 0.75);
+  line-height: 1.5;
+}
+
+.reportAppointmentStatus {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.25rem;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(15, 23, 42, 0.55);
+}
+
+.emptyState p {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+}
+
+/* Responsive adjustments for reports */
+@media (max-width: 768px) {
+  .reportAppointmentCard {
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+  }
+
+  .reportAppointmentStatus {
+    grid-column: 1 / -1;
+    justify-content: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(15, 23, 42, 0.1);
+  }
+
+  .reportAppointmentDate {
+    min-width: 65px;
+    padding: 0.6rem;
+  }
+
+  .reportDateDay {
+    font-size: 1.5rem;
+  }
+}
+
+
+/* ===== BOTON ELIMINAR CITA ===== */
+.deleteAppointmentButton {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+}
+
+.deleteAppointmentButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+  background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+}
+
+/* ===== MODAL DE CONFIRMACION DE ELIMINACION ===== */
+.confirmModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.confirmModalContent {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.25rem;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.confirmModalIcon {
+  font-size: 4rem;
+  animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.confirmModalTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.confirmModalMessage {
+  margin: 0;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.confirmModalMessage strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.confirmModalWarning {
+  display: block;
+  margin-top: 0.75rem;
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.confirmModalActions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.confirmModalActions button {
+  flex: 1;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  min-width: 120px;
+}
+
+.confirmModalActions .cancelButton {
+  background: #f1f5f9;
+  color: #475569;
+  border: 2px solid #e2e8f0;
+}
+
+.confirmModalActions .cancelButton:hover:not(:disabled) {
+  background: #e2e8f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.confirmModalActions .confirmDeleteButton {
+  background: linear-gradient(135deg, #dc2626, #991b1b);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.confirmModalActions .confirmDeleteButton:hover:not(:disabled) {
+  background: linear-gradient(135deg, #b91c1c, #7f1d1d);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+}
+
+.confirmModalActions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .confirmModalContent {
+    padding: 1.5rem;
+    max-width: 95%;
+  }
+  .confirmModalIcon {
+    font-size: 3rem;
+  }
+  .confirmModalTitle {
+    font-size: 1.25rem;
+  }
+  .confirmModalActions {
+    flex-direction: column;
+  }
+  .confirmModalActions button {
+    width: 100%;
+  }
+}
+
+/* ===== CONFIRMACIÓN INLINE EN EL CARD ===== */
+.inlineConfirmation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(220, 38, 38, 0.05));
+  border: 2px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  margin-top: 1rem;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 300px;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+}
+
+.confirmWarning {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.warningIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.3));
+}
+
+.warningText {
+  flex: 1;
+}
+
+.warningText strong {
+  display: block;
+  font-size: 1.05rem;
+  color: #7f1d1d;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.warningText p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #991b1b;
+  font-weight: 500;
+}
+
+.confirmButtons {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.confirmCancelBtn,
+.confirmOkBtn {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.confirmCancelBtn {
+  background: #ffffff;
+  color: #475569;
+  border: 2px solid #cbd5e1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.confirmCancelBtn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.confirmOkBtn {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.confirmOkBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+}
+
+.confirmCancelBtn:disabled,
+.confirmOkBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .confirmButtons {
+    flex-direction: column-reverse;
+  }
+
+  .confirmCancelBtn,
+  .confirmOkBtn {
+    width: 100%;
+  }
+
+  .warningIcon {
+    font-size: 1.75rem;
+  }
+
+  .warningText strong {
+    font-size: 0.95rem;
+  }
+
+  .warningText p {
+    font-size: 0.85rem;
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVE - FONT SIZE BOOST
+   ======================================== */
+
+/* En móviles (< 640px), incrementamos todos los tamaños de fuente pequeños
+   para mejorar legibilidad y evitar que se vea todo "muy pequeño" */
+@media (max-width: 639px) {
+  /* Small text (0.68rem -> 0.875rem / 11px -> 14px) */
+  .calendarDay small,
+  .dayInitial,
+  .appointmentTime,
+  .statusBadge {
+    font-size: 0.875rem !important;
+    font-size: var(--font-size-sm) !important;
+  }
+
+  /* Tiny text (0.75rem -> 0.875rem / 12px -> 14px) */
+  .statChange,
+  .formLabel,
+  .filterLabel,
+  .appointmentService {
+    font-size: 0.875rem !important;
+    font-size: var(--font-size-sm) !important;
+  }
+
+  /* Small+ text (0.8rem - 0.85rem -> 0.9375rem / 13-14px -> 15px) */
+  .statValue,
+  .tabButton,
+  .inputField,
+  .selectField {
+    font-size: 0.9375rem !important;
+  }
+
+  /* Regular text (0.9rem -> 1rem / 14.4px -> 16px) */
+  .appointmentClient,
+  .filterSelect,
+  .appointmentStatus,
+  .clientDetails {
+    font-size: 1rem !important;
+    font-size: var(--font-size-base) !important;
+  }
+
+  /* Botones - aumentar área táctil y fuente */
+  .primaryButton,
+  .secondaryButton,
+  .actionButton {
+    font-size: 1rem !important;
+    font-size: var(--font-size-base) !important;
+    padding: 0.875rem 1.25rem !important;
+    min-height: 48px !important; /* Touch target size iOS/Android */
+  }
+
+  /* Headers - mejorar jerarquía visual */
+  .sectionTitle {
+    font-size: 1.25rem !important;
+    font-size: var(--font-size-xl) !important;
+  }
+
+  .dashboardHeader h1 {
+    font-size: 1.5rem !important;
+    font-size: var(--font-size-2xl) !important;
+  }
+
+  /* Stats - números más legibles */
+  .statNumber {
+    font-size: 1.875rem !important;
+    font-size: var(--font-size-3xl) !important;
+  }
+
+  /* Calendar days - días más grandes */
+  .calendarDay {
+    min-height: 52px !important;
+    font-size: 1rem !important;
+  }
+
+  /* Spacing adicional para touch */
+  .tabNav {
+    gap: var(--spacing-md) !important;
+  }
+
+  .tab {
+    padding: 0.875rem 1rem !important;
+    font-size: 0.9375rem !important;
+  }
+}
+
+/* Tablet (640px - 767px) - transición suave */
+@media (min-width: 640px) and (max-width: 767px) {
+  .primaryButton,
+  .secondaryButton {
+    font-size: 0.9375rem !important;
+    padding: 0.75rem 1.125rem !important;
+  }
+
+  .sectionTitle {
+    font-size: 1.125rem !important;
+    font-size: var(--font-size-lg) !important;
+  }
+}
+
+/* ========================================
+   RESPONSIVE OVERRIDES - CRITICAL
+   ======================================== */
+
+/* FORZAR responsive en todos los contenedores */
+.dashboard,
+.dashboard > *,
+.tabContent,
+.tabContent > *,
+.sectionCard,
+.overviewTab,
+.calendarTab,
+.appointmentsTab,
+.clientsTab,
+.servicesTab,
+.settingsTab,
+.reportsTab {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Asegurar que las grids sean responsive */
+.statsGrid,
+.clientsGrid,
+.servicesGrid,
+.availabilityGrid {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Tablas responsive */
+.reportTable {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+
+/* Cards responsive */
+.statCard,
+.appointmentCard,
+.clientCard,
+.serviceCard,
+.availabilityCard {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Animaciones para diálogos elegantes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

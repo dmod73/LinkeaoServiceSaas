@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import styles from "../../styles/sections.module.css";
 
 export type PasswordFormState = { success?: string; error?: string };
@@ -21,7 +22,7 @@ function SubmitButton() {
 }
 
 export function ChangePasswordForm({ action }: Props) {
-  const [state, formAction] = useFormState(action, INITIAL_STATE);
+  const [state, formAction] = useActionState(action, INITIAL_STATE);
 
   return (
     <form className={styles.passwordForm} action={formAction}>

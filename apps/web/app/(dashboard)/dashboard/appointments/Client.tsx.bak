@@ -1,0 +1,1168 @@
+"use client";
+
+import { useState } from "react";
+import useSWR from "swr";
+import type {
+  Appointment,
+  AppointmentAvailability,
+  AppointmentTimeOff,
+  AppointmentService,
+  AppointmentClient
+} from "@/lib/features/appointments/types";
+import type { AppointmentDashboardData } from "@/lib/features/appointments/dashboard";
+import styles from "./appointments.module.css";
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
+type Props = {
+  initialData: AppointmentDashboardData;
+  tenantId: string;
+};
+
+type Tab = "overview" | "calendar" | "appointments" | "clients" | "services" | "settings" | "reports";
+type ModalType = "create-appointment" | "edit-appointment" | "config-hours" | "config-breaks" | "create-service" | null;
+
+export function AppointmentsDashboardClient({ initialData, tenantId }: Props) {
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
+  const [modalOpen, setModalOpen] = useState<ModalType>(null);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [calendarView, setCalendarView] = useState<"day" | "month">("month");
+  const [reportFilters, setReportFilters] = useState({ status: "all", dateFrom: "", dateTo: "" });
+
+  const { data, mutate } = useSWR<AppointmentDashboardData>("/api/appointments/dashboard", fetcher, {
+    fallbackData: initialData,
+    revalidateOnFocus: false
+  });
+
+  if (!data?.enabled) {
+    return null;
+  }
+
+  const upcoming = data.upcoming ?? [];
+  const availability = data.availability ?? [];
+  const timeOff = data.timeOff ?? [];
+  const summary = data.summary;
+
+  const publicUrl = typeof window !== "undefined"
+    ? `${window.location.origin}/appointments?tenant=${encodeURIComponent(tenantId)}`
+    : "";
+
+  const weekdayNames = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+
+  const openPublicView = () => {
+    window.open(publicUrl, "_blank");
+  };
+
+  const copyPublicUrl = () => {
+    navigator.clipboard.writeText(publicUrl);
+    alert(" URL copiada al portapapeles");
+  };
+
+  return (
+    <div className={styles.dashboard}>
+      {/* Header con Tabs */}
+      <header className={styles.dashboardHeader}>
+        <div className={styles.headerTop}>
+          <h1>Panel de Citas</h1>
+          <button className={styles.primaryButton} onClick={openPublicView}>
+             Vista Pública
+          </button>
+        </div>
+        <nav className={styles.tabNav}>
+          <button
+            className={activeTab === "overview" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("overview")}
+          >
+             Resumen
+          </button>
+          <button
+            className={activeTab === "calendar" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("calendar")}
+          >
+             Calendario
+          </button>
+          <button
+            className={activeTab === "appointments" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("appointments")}
+          >
+             Citas
+          </button>
+          <button
+            className={activeTab === "clients" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("clients")}
+          >
+            👥 Clientes
+          </button>
+          <button
+            className={activeTab === "services" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("services")}
+          >
+            🛠️ Servicios
+          </button>
+          <button
+            className={activeTab === "settings" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("settings")}
+          >
+            ⚙️ Configuración
+          </button>
+          <button
+            className={activeTab === "reports" ? styles.tabActive : styles.tab}
+            onClick={() => setActiveTab("reports")}
+          >
+             Reportes
+          </button>
+        </nav>
+      </header>
+
+      {/* Contenido por Tab */}
+      <div className={styles.tabContent}>
+        {activeTab === "overview" && (
+          <OverviewTab
+            summary={summary}
+            upcoming={upcoming}
+            publicUrl={publicUrl}
+            copyPublicUrl={copyPublicUrl}
+            onCreateAppointment={() => setModalOpen("create-appointment")}
+          />
+        )}
+
+        {activeTab === "calendar" && (
+          <CalendarTab
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+            calendarView={calendarView}
+            setCalendarView={setCalendarView}
+            upcoming={upcoming}
+            mutate={mutate}
+          />
+        )}
+
+        {activeTab === "appointments" && (
+          <AppointmentsTab
+            upcoming={upcoming}
+            onCreateAppointment={() => setModalOpen("create-appointment")}
+            mutate={mutate}
+          />
+        )}
+
+        {activeTab === "clients" && (
+          <ClientsTab tenantId={tenantId} />
+        )}
+
+        {activeTab === "services" && (
+          <ServicesTab
+            tenantId={tenantId}
+            onCreateService={() => setModalOpen("create-service")}
+          />
+        )}
+
+        {activeTab === "settings" && (
+          <SettingsTab
+            availability={availability}
+            timeOff={timeOff}
+            weekdayNames={weekdayNames}
+            onConfigHours={() => setModalOpen("config-hours")}
+            onConfigBreaks={() => setModalOpen("config-breaks")}
+            mutate={mutate}
+          />
+        )}
+
+        {activeTab === "reports" && (
+          <ReportsTab
+            filters={reportFilters}
+            setFilters={setReportFilters}
+            tenantId={tenantId}
+          />
+        )}
+      </div>
+
+      {/* Modales */}
+      {modalOpen === "create-appointment" && (
+        <CreateAppointmentModal
+          tenantId={tenantId}
+          onClose={() => setModalOpen(null)}
+          onSuccess={() => {
+            mutate();
+            setModalOpen(null);
+          }}
+        />
+      )}
+
+      {modalOpen === "config-hours" && (
+        <ConfigHoursModal
+          availability={availability}
+          weekdayNames={weekdayNames}
+          onClose={() => setModalOpen(null)}
+          onSuccess={() => {
+            mutate();
+            setModalOpen(null);
+          }}
+        />
+      )}
+
+      {modalOpen === "config-breaks" && (
+        <ConfigBreaksModal
+          onClose={() => setModalOpen(null)}
+          onSuccess={() => {
+            mutate();
+            setModalOpen(null);
+          }}
+        />
+      )}
+
+      {modalOpen === "create-service" && (
+        <CreateServiceModal
+          tenantId={tenantId}
+          onClose={() => setModalOpen(null)}
+          onSuccess={() => {
+            setModalOpen(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+// ===== TABS =====
+
+function OverviewTab({ summary, upcoming, publicUrl, copyPublicUrl, onCreateAppointment }: any) {
+  return (
+    <div className={styles.overviewTab}>
+      {/* Stats Grid */}
+      <div className={styles.statsGrid}>
+        <div className={`${styles.statCard} ${styles.statCard_pending}`}>
+          <span>Pendientes</span>
+          <strong>{summary.pending}</strong>
+        </div>
+        <div className={`${styles.statCard} ${styles.statCard_confirmed}`}>
+          <span>Confirmadas</span>
+          <strong>{summary.confirmed}</strong>
+        </div>
+        <div className={`${styles.statCard} ${styles.statCard_completed}`}>
+          <span>Completadas</span>
+          <strong>{summary.completed}</strong>
+        </div>
+        <div className={`${styles.statCard} ${styles.statCard_cancelled}`}>
+          <span>Canceladas</span>
+          <strong>{summary.cancelled}</strong>
+        </div>
+        <div className={`${styles.statCard} ${styles.statCard_rejected}`}>
+          <span>Rechazadas</span>
+          <strong>{summary.rejected}</strong>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
+          <h2>Acciones Rápidas</h2>
+        </div>
+        <div className={styles.quickActions}>
+          <button className={styles.actionCard} onClick={onCreateAppointment}>
+            <span className={styles.actionIcon}></span>
+            <span>Crear Cita</span>
+          </button>
+          <button className={styles.actionCard} onClick={copyPublicUrl}>
+            <span className={styles.actionIcon}></span>
+            <span>Copiar URL</span>
+          </button>
+          <button className={styles.actionCard} onClick={() => window.open(publicUrl, "_blank")}>
+            <span className={styles.actionIcon}></span>
+            <span>Ver Público</span>
+          </button>
+        </div>
+      </section>
+
+      {/* Próximas Citas */}
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
+          <h2>Próximas Citas</h2>
+          <span className={styles.badge}>{upcoming.length} total</span>
+        </div>
+        {upcoming.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p> No hay citas programadas</p>
+          </div>
+        ) : (
+          <div className={styles.appointmentsList}>
+            {upcoming.slice(0, 5).map((apt: Appointment) => (
+              <AppointmentCard key={apt.id} appointment={apt} />
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function CalendarTab({ selectedDate, setSelectedDate, calendarView, setCalendarView, upcoming, mutate }: any) {
+  const [viewDate, setViewDate] = useState(new Date());
+
+  const handleStatusChange = async (appointmentId: string, newStatus: string) => {
+    try {
+      const response = await fetch(`/api/appointments/appointments`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: appointmentId, status: newStatus })
+      });
+      if (response.ok) {
+        mutate();
+        alert(" Estado actualizado correctamente");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert(" Error al actualizar el estado");
+    }
+  };
+
+  return (
+    <div className={styles.calendarTab}>
+      <div className={styles.calendarControls}>
+        <div className={styles.viewToggle}>
+          <button
+            className={calendarView === "day" ? styles.toggleActive : styles.toggleButton}
+            onClick={() => setCalendarView("day")}
+          >
+            Día
+          </button>
+          <button
+            className={calendarView === "month" ? styles.toggleActive : styles.toggleButton}
+            onClick={() => setCalendarView("month")}
+          >
+            Mes
+          </button>
+        </div>
+        <div className={styles.dateNav}>
+          <button onClick={() => {
+            const prev = new Date(viewDate);
+            prev.setMonth(prev.getMonth() - 1);
+            setViewDate(prev);
+          }}></button>
+          <span>{viewDate.toLocaleDateString("es-ES", { month: "long", year: "numeric" })}</span>
+          <button onClick={() => {
+            const next = new Date(viewDate);
+            next.setMonth(next.getMonth() + 1);
+            setViewDate(next);
+          }}></button>
+        </div>
+      </div>
+
+      {calendarView === "month" ? (
+        <MonthCalendar viewDate={viewDate} appointments={upcoming} onSelectDate={setSelectedDate} />
+      ) : (
+        <DayCalendar selectedDate={selectedDate} appointments={upcoming} onStatusChange={handleStatusChange} mutate={mutate} />
+      )}
+    </div>
+  );
+}
+
+function AppointmentsTab({ upcoming, onCreateAppointment, mutate }: any) {
+  return (
+    <div className={styles.appointmentsTab}>
+      <div className={styles.sectionHeader}>
+        <h2>Todas las Citas</h2>
+        <button className={styles.primaryButton} onClick={onCreateAppointment}>
+           Nueva Cita
+        </button>
+      </div>
+      {upcoming.length === 0 ? (
+        <div className={styles.emptyState}>
+          <p> No hay citas programadas</p>
+          <button className={styles.primaryButton} onClick={onCreateAppointment}>
+            Crear primera cita
+          </button>
+        </div>
+      ) : (
+        <div className={styles.appointmentsList}>
+          {upcoming.map((apt: Appointment) => (
+            <AppointmentCard key={apt.id} appointment={apt} showActions mutate={mutate} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ClientsTab({ tenantId }: any) {
+  const { data: clientsData } = useSWR(`/api/appointments/clients`, fetcher);
+  const clients = clientsData?.clients ?? [];
+
+  return (
+    <div className={styles.clientsTab}>
+      <div className={styles.sectionHeader}>
+        <h2>Clientes Registrados</h2>
+        <span className={styles.badge}>{clients.length} total</span>
+      </div>
+      {clients.length === 0 ? (
+        <div className={styles.emptyState}>
+          <p> No hay clientes registrados</p>
+        </div>
+      ) : (
+        <div className={styles.clientsGrid}>
+          {clients.map((client: AppointmentClient) => (
+            <div key={client.id} className={styles.clientCard}>
+              <div className={styles.clientAvatar}>{client.fullName.charAt(0).toUpperCase()}</div>
+              <div className={styles.clientInfo}>
+                <strong>{client.fullName}</strong>
+                {client.email && <span> {client.email}</span>}
+                {client.phone && <span> {client.phone}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ServicesTab({ tenantId, onCreateService }: any) {
+  const { data: servicesData, mutate } = useSWR(`/api/appointments/services`, fetcher);
+  const services = servicesData?.services ?? [];
+
+  const handleToggleActive = async (serviceId: string, currentActive: boolean) => {
+    try {
+      const response = await fetch(`/api/appointments/services`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: serviceId, is_active: !currentActive })
+      });
+      if (response.ok) {
+        mutate();
+        alert("✅ Servicio actualizado");
+      }
+    } catch (error) {
+      alert("❌ Error al actualizar servicio");
+    }
+  };
+
+  return (
+    <div className={styles.servicesTab}>
+      <div className={styles.sectionHeader}>
+        <h2>Servicios Disponibles</h2>
+        <button className={styles.primaryButton} onClick={onCreateService}>
+          ➕ Nuevo Servicio
+        </button>
+      </div>
+      {services.length === 0 ? (
+        <div className={styles.emptyState}>
+          <p>🛠️ No hay servicios registrados</p>
+          <button className={styles.primaryButton} onClick={onCreateService}>
+            Crear primer servicio
+          </button>
+        </div>
+      ) : (
+        <div className={styles.servicesGrid}>
+          {services.map((service: AppointmentService) => (
+            <div key={service.id} className={styles.serviceCardLarge}>
+              <div className={styles.serviceHeader}>
+                <h3>{service.name}</h3>
+                <label className={styles.switch}>
+                  <input
+                    type="checkbox"
+                    checked={service.isActive !== false}
+                    onChange={() => handleToggleActive(service.id, service.isActive !== false)}
+                  />
+                  <span className={styles.slider}></span>
+                </label>
+              </div>
+              {service.description && (
+                <p className={styles.serviceDescription}>{service.description}</p>
+              )}
+              <div className={styles.serviceDetails}>
+                <span>⏱️ {service.durationMinutes} min</span>
+                {service.price && <span>💰 ${service.price}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SettingsTab({ availability, timeOff, weekdayNames, onConfigHours, onConfigBreaks, mutate }: any) {
+  return (
+    <div className={styles.settingsTab}>
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
+          <h2>Horarios de Atención</h2>
+          <button className={styles.secondaryButton} onClick={onConfigHours}>
+             Configurar
+          </button>
+        </div>
+        {availability.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p> No hay horarios configurados</p>
+            <button className={styles.primaryButton} onClick={onConfigHours}>
+              Configurar horarios
+            </button>
+          </div>
+        ) : (
+          <div className={styles.availabilityGrid}>
+            {availability.map((avail: AppointmentAvailability) => (
+              <div key={avail.id} className={styles.availabilityCard}>
+                <div className={styles.weekdayLabel}>{weekdayNames[avail.weekday]}</div>
+                <div className={styles.timeRange}>{avail.start} - {avail.end}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className={styles.sectionCard}>
+        <div className={styles.sectionHeader}>
+          <h2>Horarios de Descanso</h2>
+          <button className={styles.secondaryButton} onClick={onConfigBreaks}>
+             Configurar
+          </button>
+        </div>
+        <p className={styles.helpText}>
+          Configura los horarios de descanso por día de la semana (ej: almuerzo de 1-2 PM)
+        </p>
+      </section>
+    </div>
+  );
+}
+
+function ReportsTab({ filters, setFilters, tenantId }: any) {
+  const queryString = `/api/appointments/reports?status=${filters.status}&from=${filters.dateFrom}&to=${filters.dateTo}`;
+  const { data: reportData } = useSWR(queryString, fetcher);
+
+  return (
+    <div className={styles.reportsTab}>
+      <div className={styles.sectionHeader}>
+        <h2>Reportes de Citas</h2>
+      </div>
+
+      <section className={styles.sectionCard}>
+        <div className={styles.filterBar}>
+          <div className={styles.filterGroup}>
+            <label>Estado</label>
+            <select value={filters.status} onChange={(e) => setFilters({...filters, status: e.target.value})}>
+              <option value="all">Todos</option>
+              <option value="pending">Pendientes</option>
+              <option value="confirmed">Confirmadas</option>
+              <option value="completed">Completadas</option>
+              <option value="cancelled">Canceladas</option>
+              <option value="rejected">Rechazadas</option>
+            </select>
+          </div>
+          <div className={styles.filterGroup}>
+            <label>Desde</label>
+            <input
+              type="date"
+              value={filters.dateFrom}
+              onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
+            />
+          </div>
+          <div className={styles.filterGroup}>
+            <label>Hasta</label>
+            <input
+              type="date"
+              value={filters.dateTo}
+              onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
+            />
+          </div>
+        </div>
+      </section>
+
+      {reportData?.stats && (
+        <section className={styles.sectionCard}>
+          <h3>Estadísticas</h3>
+          <div className={styles.statsGrid}>
+            <div className={styles.statCard}>
+              <span>Total</span>
+              <strong>{reportData.stats.total}</strong>
+            </div>
+            <div className={`${styles.statCard} ${styles.statCard_pending}`}>
+              <span>Pendientes</span>
+              <strong>{reportData.stats.pending}</strong>
+            </div>
+            <div className={`${styles.statCard} ${styles.statCard_confirmed}`}>
+              <span>Confirmadas</span>
+              <strong>{reportData.stats.confirmed}</strong>
+            </div>
+            <div className={`${styles.statCard} ${styles.statCard_completed}`}>
+              <span>Completadas</span>
+              <strong>{reportData.stats.completed}</strong>
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+// ===== COMPONENTES =====
+
+function AppointmentCard({ appointment, showActions, mutate }: any) {
+  const handleStatusChange = async (newStatus: string) => {
+    try {
+      const response = await fetch(`/api/appointments/appointments`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: appointment.id, status: newStatus })
+      });
+      if (response.ok) {
+        mutate?.();
+        alert(" Estado actualizado");
+      }
+    } catch (error) {
+      alert(" Error al actualizar");
+    }
+  };
+
+  return (
+    <div className={styles.appointmentCard}>
+      <div className={styles.appointmentTime}>
+        <div className={styles.appointmentDate}>
+          {new Date(appointment.startsAt).toLocaleDateString("es-ES", {
+            weekday: "short",
+            day: "numeric",
+            month: "short"
+          })}
+        </div>
+        <div className={styles.appointmentHour}>
+          {new Date(appointment.startsAt).toLocaleTimeString("es-ES", {
+            hour: "2-digit",
+            minute: "2-digit"
+          })}
+        </div>
+      </div>
+      <div className={styles.appointmentInfo}>
+        <div className={styles.appointmentClient}>
+          <strong>{appointment.client?.fullName ?? "Sin nombre"}</strong>
+          {appointment.client?.email && <span>{appointment.client.email}</span>}
+        </div>
+        <div className={styles.appointmentService}>
+          {appointment.service?.name ?? "Servicio no especificado"}
+        </div>
+        {appointment.note && (
+          <div className={styles.appointmentNote}> {appointment.note}</div>
+        )}
+      </div>
+      <div className={styles.appointmentActions}>
+        <span className={`${styles.badge} ${styles[`badge_${appointment.status}`]}`}>
+          {appointment.status === "pending" && " Pendiente"}
+          {appointment.status === "confirmed" && " Confirmada"}
+          {appointment.status === "completed" && " Completada"}
+          {appointment.status === "cancelled" && " Cancelada"}
+          {appointment.status === "rejected" && " Rechazada"}
+        </span>
+        {showActions && (
+          <div className={styles.statusActions}>
+            {appointment.status === "pending" && (
+              <>
+                <button onClick={() => handleStatusChange("confirmed")} title="Confirmar"></button>
+                <button onClick={() => handleStatusChange("rejected")} title="Rechazar"></button>
+              </>
+            )}
+            {(appointment.status === "pending" || appointment.status === "confirmed") && (
+              <button onClick={() => handleStatusChange("cancelled")} title="Cancelar"></button>
+            )}
+            {appointment.status === "confirmed" && (
+              <button onClick={() => handleStatusChange("completed")} title="Completar"></button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MonthCalendar({ viewDate, appointments, onSelectDate }: any) {
+  return (
+    <div className={styles.monthCalendar}>
+      <p className={styles.helpText}>Vista de calendario mensual con citas por día (próximamente)</p>
+    </div>
+  );
+}
+
+function DayCalendar({ selectedDate, appointments, onStatusChange, mutate }: any) {
+  const dayAppointments = appointments.filter((apt: Appointment) => {
+    const aptDate = new Date(apt.startsAt);
+    return aptDate.toDateString() === selectedDate.toDateString();
+  });
+
+  return (
+    <div className={styles.dayCalendar}>
+      <h3>{selectedDate.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}</h3>
+      {dayAppointments.length === 0 ? (
+        <div className={styles.emptyState}>
+          <p> No hay citas este día</p>
+        </div>
+      ) : (
+        <div className={styles.appointmentsList}>
+          {dayAppointments.map((apt: Appointment) => (
+            <AppointmentCard key={apt.id} appointment={apt} showActions mutate={mutate} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ===== MODALES =====
+
+function CreateAppointmentModal({ tenantId, onClose, onSuccess }: any) {
+  const [step, setStep] = useState<"client" | "service" | "datetime">("client");
+  const [selectedClient, setSelectedClient] = useState<string | null>(null);
+  const [newClient, setNewClient] = useState({ fullName: "", email: "", phone: "" });
+  const [useExisting, setUseExisting] = useState(true);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [dateTime, setDateTime] = useState({ date: "", time: "", note: "" });
+
+  const { data: clientsData } = useSWR(`/api/appointments/clients`, fetcher);
+  const { data: servicesData } = useSWR(`/api/appointments/services`, fetcher);
+  const clients = clientsData?.clients ?? [];
+  const services = servicesData?.services ?? [];
+
+  const handleCreateAppointment = async () => {
+    if (!selectedService || !dateTime.date || !dateTime.time) {
+      alert("Por favor completa todos los campos");
+      return;
+    }
+
+    const startsAt = `${dateTime.date}T${dateTime.time}:00`;
+
+    try {
+      const response = await fetch("/api/appointments/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientId: useExisting ? selectedClient : null,
+          newClient: useExisting ? null : newClient,
+          serviceId: selectedService,
+          startsAt,
+          note: dateTime.note
+        })
+      });
+
+      if (response.ok) {
+        alert(" Cita creada correctamente");
+        onSuccess();
+      } else {
+        alert(" Error al crear la cita");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert(" Error al crear la cita");
+    }
+  };
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <h2> Nueva Cita</h2>
+          <button className={styles.closeButton} onClick={onClose}></button>
+        </div>
+        <div className={styles.modalBody}>
+          <div className={styles.stepIndicator}>
+            <span className={step === "client" ? styles.stepActive : ""}>1. Cliente</span>
+            <span className={step === "service" ? styles.stepActive : ""}>2. Servicio</span>
+            <span className={step === "datetime" ? styles.stepActive : ""}>3. Fecha/Hora</span>
+          </div>
+
+          {step === "client" && (
+            <div className={styles.formSection}>
+              <div className={styles.toggleGroup}>
+                <button
+                  className={useExisting ? styles.toggleActive : styles.toggleButton}
+                  onClick={() => setUseExisting(true)}
+                >
+                  Cliente Existente
+                </button>
+                <button
+                  className={!useExisting ? styles.toggleActive : styles.toggleButton}
+                  onClick={() => setUseExisting(false)}
+                >
+                  Nuevo Cliente
+                </button>
+              </div>
+
+              {useExisting ? (
+                <div className={styles.clientList}>
+                  {clients.map((client: AppointmentClient) => (
+                    <div
+                      key={client.id}
+                      className={selectedClient === client.id ? styles.clientItemSelected : styles.clientItem}
+                      onClick={() => setSelectedClient(client.id)}
+                    >
+                      <strong>{client.fullName}</strong>
+                      <span>{client.email}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={styles.formFields}>
+                  <input
+                    type="text"
+                    placeholder="Nombre completo"
+                    value={newClient.fullName}
+                    onChange={(e) => setNewClient({...newClient, fullName: e.target.value})}
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={newClient.email}
+                    onChange={(e) => setNewClient({...newClient, email: e.target.value})}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Teléfono"
+                    value={newClient.phone}
+                    onChange={(e) => setNewClient({...newClient, phone: e.target.value})}
+                  />
+                </div>
+              )}
+            </div>
+          )}
+
+          {step === "service" && (
+            <div className={styles.serviceGrid}>
+              {services.map((service: AppointmentService) => (
+                <div
+                  key={service.id}
+                  className={selectedService === service.id ? styles.serviceCardSelected : styles.serviceCard}
+                  onClick={() => setSelectedService(service.id)}
+                >
+                  <strong>{service.name}</strong>
+                  <span>{service.durationMinutes} min</span>
+                  {service.price && <span>${service.price}</span>}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {step === "datetime" && (
+            <div className={styles.formFields}>
+              <input
+                type="date"
+                value={dateTime.date}
+                onChange={(e) => setDateTime({...dateTime, date: e.target.value})}
+              />
+              <input
+                type="time"
+                value={dateTime.time}
+                onChange={(e) => setDateTime({...dateTime, time: e.target.value})}
+              />
+              <textarea
+                placeholder="Nota (opcional)"
+                rows={3}
+                value={dateTime.note}
+                onChange={(e) => setDateTime({...dateTime, note: e.target.value})}
+              ></textarea>
+            </div>
+          )}
+        </div>
+        <div className={styles.modalActions}>
+          {step !== "client" && (
+            <button className={styles.secondaryButton} onClick={() => {
+              if (step === "service") setStep("client");
+              if (step === "datetime") setStep("service");
+            }}>
+               Anterior
+            </button>
+          )}
+          <button className={styles.primaryButton} onClick={() => {
+            if (step === "client") {
+              if (useExisting && !selectedClient) {
+                alert("Selecciona un cliente");
+                return;
+              }
+              if (!useExisting && !newClient.fullName) {
+                alert("Ingresa el nombre del cliente");
+                return;
+              }
+              setStep("service");
+            } else if (step === "service") {
+              if (!selectedService) {
+                alert("Selecciona un servicio");
+                return;
+              }
+              setStep("datetime");
+            } else {
+              handleCreateAppointment();
+            }
+          }}>
+            {step === "datetime" ? "Crear Cita" : "Siguiente "}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConfigHoursModal({ availability, weekdayNames, onClose, onSuccess }: any) {
+  const [hours, setHours] = useState(
+    weekdayNames.map((name: string, index: number) => {
+      const existing = availability.find((a: AppointmentAvailability) => a.weekday === index);
+      return {
+        weekday: index,
+        enabled: !!existing,
+        start: existing?.start || "09:00",
+        end: existing?.end || "18:00"
+      };
+    })
+  );
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch("/api/appointments/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          businessHours: hours.filter((h: any) => h.enabled).map((h: any) => ({
+            weekday: h.weekday,
+            start: h.start,
+            end: h.end
+          }))
+        })
+      });
+      if (response.ok) {
+        alert(" Horarios guardados correctamente");
+        onSuccess();
+      } else {
+        alert(" Error al guardar horarios");
+      }
+    } catch (error) {
+      alert(" Error al guardar horarios");
+    }
+  };
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <h2> Configurar Horarios</h2>
+          <button className={styles.closeButton} onClick={onClose}></button>
+        </div>
+        <div className={styles.modalBody}>
+          {hours.map((hour: any, index: number) => (
+            <div key={index} className={styles.hourRow}>
+              <label className={styles.checkbox}>
+                <input
+                  type="checkbox"
+                  checked={hour.enabled}
+                  onChange={(e) => {
+                    const newHours = [...hours];
+                    newHours[index].enabled = e.target.checked;
+                    setHours(newHours);
+                  }}
+                />
+                <span>{weekdayNames[index]}</span>
+              </label>
+              {hour.enabled && (
+                <div className={styles.timeInputs}>
+                  <input
+                    type="time"
+                    value={hour.start}
+                    onChange={(e) => {
+                      const newHours = [...hours];
+                      newHours[index].start = e.target.value;
+                      setHours(newHours);
+                    }}
+                  />
+                  <span>-</span>
+                  <input
+                    type="time"
+                    value={hour.end}
+                    onChange={(e) => {
+                      const newHours = [...hours];
+                      newHours[index].end = e.target.value;
+                      setHours(newHours);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className={styles.modalActions}>
+          <button className={styles.secondaryButton} onClick={onClose}>Cancelar</button>
+          <button className={styles.primaryButton} onClick={handleSave}>Guardar</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConfigBreaksModal({ onClose, onSuccess }: any) {
+  const [breaks, setBreaks] = useState([{ weekday: 1, start: "13:00", end: "14:00" }]);
+
+  const handleSave = async () => {
+    alert(" Descansos guardados (función en desarrollo)");
+    onSuccess();
+  };
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <h2> Configurar Descansos</h2>
+          <button className={styles.closeButton} onClick={onClose}></button>
+        </div>
+        <div className={styles.modalBody}>
+          {breaks.map((brk: any, index: number) => (
+            <div key={index} className={styles.breakRow}>
+              <select
+                value={brk.weekday}
+                onChange={(e) => {
+                  const newBreaks = [...breaks];
+                  newBreaks[index].weekday = Number(e.target.value);
+                  setBreaks(newBreaks);
+                }}
+              >
+                <option value="0">Domingo</option>
+                <option value="1">Lunes</option>
+                <option value="2">Martes</option>
+                <option value="3">Miércoles</option>
+                <option value="4">Jueves</option>
+                <option value="5">Viernes</option>
+                <option value="6">Sábado</option>
+              </select>
+              <input
+                type="time"
+                value={brk.start}
+                onChange={(e) => {
+                  const newBreaks = [...breaks];
+                  newBreaks[index].start = e.target.value;
+                  setBreaks(newBreaks);
+                }}
+              />
+              <span>-</span>
+              <input
+                type="time"
+                value={brk.end}
+                onChange={(e) => {
+                  const newBreaks = [...breaks];
+                  newBreaks[index].end = e.target.value;
+                  setBreaks(newBreaks);
+                }}
+              />
+              <button onClick={() => setBreaks(breaks.filter((_, i) => i !== index))}></button>
+            </div>
+          ))}
+          <button
+            className={styles.secondaryButton}
+            onClick={() => setBreaks([...breaks, { weekday: 1, start: "13:00", end: "14:00" }])}
+          >
+             Agregar Descanso
+          </button>
+        </div>
+        <div className={styles.modalActions}>
+          <button className={styles.secondaryButton} onClick={onClose}>Cancelar</button>
+          <button className={styles.primaryButton} onClick={handleSave}>Guardar</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CreateServiceModal({ tenantId, onClose, onSuccess }: any) {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    durationMinutes: 30,
+    price: ""
+  });
+
+  const handleSubmit = async () => {
+    if (!formData.name) {
+      alert("⚠️ El nombre del servicio es requerido");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/appointments/services", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          description: formData.description,
+          durationMinutes: formData.durationMinutes,
+          price: formData.price ? parseFloat(formData.price) : null
+        })
+      });
+
+      if (response.ok) {
+        alert("✅ Servicio creado correctamente");
+        onSuccess();
+      } else {
+        const error = await response.json();
+        alert(`❌ Error: ${error.error || "No se pudo crear el servicio"}`);
+      }
+    } catch (error) {
+      console.error("Error creating service:", error);
+      alert("❌ Error al crear el servicio");
+    }
+  };
+
+  return (
+    <div className={styles.modalOverlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.modalHeader}>
+          <h2>🛠️ Nuevo Servicio</h2>
+          <button className={styles.closeButton} onClick={onClose}>✕</button>
+        </div>
+        <div className={styles.modalBody}>
+          <div className={styles.formFields}>
+            <div className={styles.formGroup}>
+              <label>Nombre del Servicio *</label>
+              <input
+                type="text"
+                placeholder="Ej: Consulta general"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Descripción</label>
+              <textarea
+                placeholder="Descripción opcional del servicio"
+                rows={3}
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+              ></textarea>
+            </div>
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <label>Duración (minutos) *</label>
+                <input
+                  type="number"
+                  min="5"
+                  step="5"
+                  value={formData.durationMinutes}
+                  onChange={(e) => setFormData({...formData, durationMinutes: parseInt(e.target.value)})}
+                />
+              </div>
+                            <div className={styles.formGroup}>
+                <label>Precio (opcional)</label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={formData.price}
+                  onChange={(e) => setFormData({...formData, price: e.target.value})}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.modalActions}>
+                    <button className={styles.secondaryButton} onClick={onClose}>Cancelar</button>
+          <button className={styles.primaryButton} onClick={handleSubmit}>Crear Servicio</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+}

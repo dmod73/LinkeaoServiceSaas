@@ -8,16 +8,26 @@ import { getDashboardNavItems } from "./navLinks";
 type Props = {
   showAdmin?: boolean;
   enableLinkService?: boolean;
-  activeModules?: string[];
+  enableInvoice?: boolean;
+  enableInvoicing?: boolean;
+  activeModuleLabels?: string[];
 };
 
 export function DashboardNav({
   showAdmin = false,
   enableLinkService = false,
-  activeModules = []
+  enableInvoice = false,
+  enableInvoicing = false,
+  activeModuleLabels = []
 }: Props) {
   const pathname = usePathname();
-  const links = getDashboardNavItems({ showAdmin, enableLinkService, activeModules });
+  const links = getDashboardNavItems({
+    showAdmin,
+    enableLinkService,
+    enableInvoice,
+    enableInvoicing,
+    activeModuleLabels
+  });
 
   return (
     <nav className={styles.nav} aria-label="Secciones de Linkeao Service">

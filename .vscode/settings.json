@@ -33,5 +33,6 @@
     "infra/supabase/.temp": true,
     "infra/supabase/.volumes": true,
     "infra/supabase/docker": true
-  }
+  },
+  "css.lint.unknownAtRules": "ignore"
 }
